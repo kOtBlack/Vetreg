@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Vetreg.Models {
-    public class Event {
+    public class Cause {
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
