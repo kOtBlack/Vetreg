@@ -19,13 +19,13 @@ namespace Vetreg.Controllers
             _context = context;
         }
 
-        // GET: Tag
+        // GET: Tags
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Tag.ToListAsync());
+            return View(await _context.Tags.ToListAsync());
         }
 
-        // GET: Tag/Details/5
+        // GET: Tags/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,7 +33,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var tag = await _context.Tag
+            var tag = await _context.Tags
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tag == null)
             {
@@ -43,18 +43,18 @@ namespace Vetreg.Controllers
             return View(tag);
         }
 
-        // GET: Tag/Create
+        // GET: Tags/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Tag/Create
+        // POST: Tags/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Tag tag)
+        public async Task<IActionResult> Create([Bind("Id,Name,AnimalId")] Tag tag)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace Vetreg.Controllers
             return View(tag);
         }
 
-        // GET: Tag/Edit/5
+        // GET: Tags/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,7 +73,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var tag = await _context.Tag.FindAsync(id);
+            var tag = await _context.Tags.FindAsync(id);
             if (tag == null)
             {
                 return NotFound();
@@ -81,12 +81,12 @@ namespace Vetreg.Controllers
             return View(tag);
         }
 
-        // POST: Tag/Edit/5
+        // POST: Tags/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Tag tag)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,AnimalId")] Tag tag)
         {
             if (id != tag.Id)
             {
@@ -116,7 +116,7 @@ namespace Vetreg.Controllers
             return View(tag);
         }
 
-        // GET: Tag/Delete/5
+        // GET: Tags/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,7 +124,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var tag = await _context.Tag
+            var tag = await _context.Tags
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tag == null)
             {
@@ -134,20 +134,20 @@ namespace Vetreg.Controllers
             return View(tag);
         }
 
-        // POST: Tag/Delete/5
+        // POST: Tags/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tag = await _context.Tag.FindAsync(id);
-            _context.Tag.Remove(tag);
+            var tag = await _context.Tags.FindAsync(id);
+            _context.Tags.Remove(tag);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool TagExists(int id)
         {
-            return _context.Tag.Any(e => e.Id == id);
+            return _context.Tags.Any(e => e.Id == id);
         }
     }
 }

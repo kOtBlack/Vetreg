@@ -19,13 +19,13 @@ namespace Vetreg.Controllers
             _context = context;
         }
 
-        // GET: Kind
+        // GET: Kinds
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Kind.ToListAsync());
+            return View(await _context.Kinds.ToListAsync());
         }
 
-        // GET: Kind/Details/5
+        // GET: Kinds/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,7 +33,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var kind = await _context.Kind
+            var kind = await _context.Kinds
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (kind == null)
             {
@@ -43,13 +43,13 @@ namespace Vetreg.Controllers
             return View(kind);
         }
 
-        // GET: Kind/Create
+        // GET: Kinds/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Kind/Create
+        // POST: Kinds/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -65,7 +65,7 @@ namespace Vetreg.Controllers
             return View(kind);
         }
 
-        // GET: Kind/Edit/5
+        // GET: Kinds/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,7 +73,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var kind = await _context.Kind.FindAsync(id);
+            var kind = await _context.Kinds.FindAsync(id);
             if (kind == null)
             {
                 return NotFound();
@@ -81,7 +81,7 @@ namespace Vetreg.Controllers
             return View(kind);
         }
 
-        // POST: Kind/Edit/5
+        // POST: Kinds/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -116,7 +116,7 @@ namespace Vetreg.Controllers
             return View(kind);
         }
 
-        // GET: Kind/Delete/5
+        // GET: Kinds/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,7 +124,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var kind = await _context.Kind
+            var kind = await _context.Kinds
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (kind == null)
             {
@@ -134,20 +134,20 @@ namespace Vetreg.Controllers
             return View(kind);
         }
 
-        // POST: Kind/Delete/5
+        // POST: Kinds/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var kind = await _context.Kind.FindAsync(id);
-            _context.Kind.Remove(kind);
+            var kind = await _context.Kinds.FindAsync(id);
+            _context.Kinds.Remove(kind);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool KindExists(int id)
         {
-            return _context.Kind.Any(e => e.Id == id);
+            return _context.Kinds.Any(e => e.Id == id);
         }
     }
 }

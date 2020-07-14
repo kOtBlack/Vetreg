@@ -22,7 +22,7 @@ namespace Vetreg.Controllers
         // GET: Region
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Region.ToListAsync());
+            return View(await _context.Regions.ToListAsync());
         }
 
         // GET: Region/Details/5
@@ -33,7 +33,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var region = await _context.Region
+            var region = await _context.Regions
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (region == null)
             {
@@ -73,7 +73,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var region = await _context.Region.FindAsync(id);
+            var region = await _context.Regions.FindAsync(id);
             if (region == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var region = await _context.Region
+            var region = await _context.Regions
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (region == null)
             {
@@ -139,15 +139,15 @@ namespace Vetreg.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var region = await _context.Region.FindAsync(id);
-            _context.Region.Remove(region);
+            var region = await _context.Regions.FindAsync(id);
+            _context.Regions.Remove(region);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RegionExists(int id)
         {
-            return _context.Region.Any(e => e.Id == id);
+            return _context.Regions.Any(e => e.Id == id);
         }
     }
 }

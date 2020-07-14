@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Vetreg.Models {
     public class Employee : IdentityUser {
-
-        public Company CompanyId { get; set; }
+        public int CompanyId { get; set; }
+        //public Company Company { get; set; }
         public string Specialization { get; set; }
     }
 }

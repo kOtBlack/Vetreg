@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Vetreg.ViewModels;
 
 namespace Vetreg.Models {
     public class City {

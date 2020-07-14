@@ -10,15 +10,18 @@ using Vetreg.Data;
 
 namespace Vetreg.ViewModels {
     public class RegionsNameListModel {
-        public SelectList RegionName { get; set; }
+        //public SelectList RegionName { get; set; }
 
-        public void RegionsDropDownList(ApplicationDbContext _context,
+        public SelectList RegionsDropDownList(ApplicationDbContext _context,
             object selectedRegion = null) {
 
-            var departmentsQuery = _context.Region.OrderBy(r => r.Name).Select(r => r);
+            var regionsQuery = _context.Regions.OrderBy(r => r.Name).Select(r => r);
 
-            RegionName = new SelectList(departmentsQuery.AsNoTracking(),
-                        "Id", "Name", selectedRegion);
+            //RegionName = new SelectList(departmentsQuery.AsNoTracking(),
+            //            "Id", "Name", selectedRegion);
+
+            return new SelectList(regionsQuery.AsNoTracking(),
+                "Id", "Name", selectedRegion);
         }
     }
 }

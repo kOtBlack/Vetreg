@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vetreg.Data;
 
-namespace Vetreg.Data.Migrations
+namespace Vetreg.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200708082559_AddModelInDB")]
-    partial class AddModelInDB
+    [Migration("20200713080719_UpdateTagModelInDB")]
+    partial class UpdateTagModelInDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -233,41 +233,38 @@ namespace Vetreg.Data.Migrations
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("BreedId")
+                    b.Property<int>("BreedId")
                         .HasColumnType("int");
 
                     b.Property<string>("ChipNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CityId")
+                    b.Property<int>("CityId")
                         .HasColumnType("int");
+
+                    b.Property<byte>("Gender")
+                        .HasColumnType("tinyint");
 
                     b.Property<bool>("IsRetired")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("KindId")
+                    b.Property<int>("KindId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OwnerId")
+                    b.Property<int>("OwnerId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RegionId")
+                    b.Property<int>("RegionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Remark")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte>("Sex")
-                        .HasColumnType("tinyint");
-
                     b.Property<int>("Sticker")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SuitId")
+                    b.Property<int>("SuitId")
                         .HasColumnType("int");
-
-                    b.Property<Guid?>("WorkGUID")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("GUID");
 
@@ -283,9 +280,7 @@ namespace Vetreg.Data.Migrations
 
                     b.HasIndex("SuitId");
 
-                    b.HasIndex("WorkGUID");
-
-                    b.ToTable("Animal");
+                    b.ToTable("Animals");
                 });
 
             modelBuilder.Entity("Vetreg.Models.Breed", b =>
@@ -300,22 +295,21 @@ namespace Vetreg.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Breed");
+                    b.ToTable("Breeds");
                 });
 
             modelBuilder.Entity("Vetreg.Models.Cause", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("GUID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("GUID");
 
-                    b.ToTable("Cause");
+                    b.ToTable("Causes");
                 });
 
             modelBuilder.Entity("Vetreg.Models.City", b =>
@@ -328,45 +322,14 @@ namespace Vetreg.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RegionId")
+                    b.Property<int>("RegionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RegionId");
 
-                    b.ToTable("City");
-                });
-
-            modelBuilder.Entity("Vetreg.Models.Company", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Chief")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("RegionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("RegionId");
-
-                    b.ToTable("Company");
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("Vetreg.Models.Kind", b =>
@@ -381,7 +344,7 @@ namespace Vetreg.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Kind");
+                    b.ToTable("Kinds");
                 });
 
             modelBuilder.Entity("Vetreg.Models.Owner", b =>
@@ -394,7 +357,7 @@ namespace Vetreg.Data.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CityId")
+                    b.Property<int>("CityId")
                         .HasColumnType("int");
 
                     b.Property<string>("FIO")
@@ -406,7 +369,7 @@ namespace Vetreg.Data.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RegionId")
+                    b.Property<int>("RegionId")
                         .HasColumnType("int");
 
                     b.Property<int>("Type")
@@ -418,7 +381,7 @@ namespace Vetreg.Data.Migrations
 
                     b.HasIndex("RegionId");
 
-                    b.ToTable("Owner");
+                    b.ToTable("Owners");
                 });
 
             modelBuilder.Entity("Vetreg.Models.Region", b =>
@@ -433,7 +396,7 @@ namespace Vetreg.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Region");
+                    b.ToTable("Regions");
                 });
 
             modelBuilder.Entity("Vetreg.Models.Suit", b =>
@@ -448,7 +411,7 @@ namespace Vetreg.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Suit");
+                    b.ToTable("Suits");
                 });
 
             modelBuilder.Entity("Vetreg.Models.Tag", b =>
@@ -461,6 +424,9 @@ namespace Vetreg.Data.Migrations
                     b.Property<Guid?>("AnimalGUID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("AnimalId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -468,41 +434,7 @@ namespace Vetreg.Data.Migrations
 
                     b.HasIndex("AnimalGUID");
 
-                    b.ToTable("Tag");
-                });
-
-            modelBuilder.Entity("Vetreg.Models.Work", b =>
-                {
-                    b.Property<Guid>("GUID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OwnerId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RegionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("GUID");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("OwnerId");
-
-                    b.HasIndex("RegionId");
-
-                    b.ToTable("Work");
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -560,60 +492,63 @@ namespace Vetreg.Data.Migrations
                 {
                     b.HasOne("Vetreg.Models.Breed", "Breed")
                         .WithMany()
-                        .HasForeignKey("BreedId");
+                        .HasForeignKey("BreedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Vetreg.Models.City", "City")
                         .WithMany()
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Vetreg.Models.Kind", "Kind")
                         .WithMany()
-                        .HasForeignKey("KindId");
+                        .HasForeignKey("KindId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Vetreg.Models.Owner", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId");
+                        .WithMany("Animals")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Vetreg.Models.Region", "Region")
                         .WithMany()
-                        .HasForeignKey("RegionId");
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Vetreg.Models.Suit", "Suit")
                         .WithMany()
-                        .HasForeignKey("SuitId");
-
-                    b.HasOne("Vetreg.Models.Work", null)
-                        .WithMany("Animals")
-                        .HasForeignKey("WorkGUID");
+                        .HasForeignKey("SuitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Vetreg.Models.City", b =>
                 {
                     b.HasOne("Vetreg.Models.Region", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionId");
-                });
-
-            modelBuilder.Entity("Vetreg.Models.Company", b =>
-                {
-                    b.HasOne("Vetreg.Models.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId");
-
-                    b.HasOne("Vetreg.Models.Region", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionId");
+                        .WithMany("Cities")
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Vetreg.Models.Owner", b =>
                 {
                     b.HasOne("Vetreg.Models.City", "City")
                         .WithMany()
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Vetreg.Models.Region", "Region")
                         .WithMany()
-                        .HasForeignKey("RegionId");
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Vetreg.Models.Tag", b =>
@@ -621,25 +556,6 @@ namespace Vetreg.Data.Migrations
                     b.HasOne("Vetreg.Models.Animal", null)
                         .WithMany("Tags")
                         .HasForeignKey("AnimalGUID");
-                });
-
-            modelBuilder.Entity("Vetreg.Models.Work", b =>
-                {
-                    b.HasOne("Vetreg.Models.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId");
-
-                    b.HasOne("Vetreg.Models.Cause", "Event")
-                        .WithMany()
-                        .HasForeignKey("EventId");
-
-                    b.HasOne("Vetreg.Models.Owner", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId");
-
-                    b.HasOne("Vetreg.Models.Region", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionId");
                 });
 #pragma warning restore 612, 618
         }

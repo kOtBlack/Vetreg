@@ -12,8 +12,16 @@ namespace Vetreg.Models {
         public string FIO { get; set; }
         public string Phone { get; set; }
         public TypeOwner Type { get; set; }
-        public Region RegionId { get; set; }
-        public City CityId { get; set; }
+        public int RegionId { get; set; }
+        public Region Region { get; set; }
+        public int CityId { get; set; }
+        public City City { get; set; }
         public string Address { get; set; }
+
+        public ICollection<Animal> Animals { get; set; }
+
+        public Owner() {
+            Animals = new List<Animal>();
+        } 
     }
 }

@@ -19,13 +19,13 @@ namespace Vetreg.Controllers
             _context = context;
         }
 
-        // GET: Suit
+        // GET: Suits
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Suit.ToListAsync());
+            return View(await _context.Suits.ToListAsync());
         }
 
-        // GET: Suit/Details/5
+        // GET: Suits/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,7 +33,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var suit = await _context.Suit
+            var suit = await _context.Suits
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (suit == null)
             {
@@ -43,13 +43,13 @@ namespace Vetreg.Controllers
             return View(suit);
         }
 
-        // GET: Suit/Create
+        // GET: Suits/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Suit/Create
+        // POST: Suits/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -65,7 +65,7 @@ namespace Vetreg.Controllers
             return View(suit);
         }
 
-        // GET: Suit/Edit/5
+        // GET: Suits/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,7 +73,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var suit = await _context.Suit.FindAsync(id);
+            var suit = await _context.Suits.FindAsync(id);
             if (suit == null)
             {
                 return NotFound();
@@ -81,7 +81,7 @@ namespace Vetreg.Controllers
             return View(suit);
         }
 
-        // POST: Suit/Edit/5
+        // POST: Suits/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -116,7 +116,7 @@ namespace Vetreg.Controllers
             return View(suit);
         }
 
-        // GET: Suit/Delete/5
+        // GET: Suits/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,7 +124,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var suit = await _context.Suit
+            var suit = await _context.Suits
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (suit == null)
             {
@@ -134,20 +134,20 @@ namespace Vetreg.Controllers
             return View(suit);
         }
 
-        // POST: Suit/Delete/5
+        // POST: Suits/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var suit = await _context.Suit.FindAsync(id);
-            _context.Suit.Remove(suit);
+            var suit = await _context.Suits.FindAsync(id);
+            _context.Suits.Remove(suit);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SuitExists(int id)
         {
-            return _context.Suit.Any(e => e.Id == id);
+            return _context.Suits.Any(e => e.Id == id);
         }
     }
 }

@@ -19,13 +19,13 @@ namespace Vetreg.Controllers
             _context = context;
         }
 
-        // GET: Breed
+        // GET: Breeds
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Breed.ToListAsync());
+            return View(await _context.Breeds.ToListAsync());
         }
 
-        // GET: Breed/Details/5
+        // GET: Breeds/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,7 +33,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var breed = await _context.Breed
+            var breed = await _context.Breeds
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (breed == null)
             {
@@ -43,13 +43,13 @@ namespace Vetreg.Controllers
             return View(breed);
         }
 
-        // GET: Breed/Create
+        // GET: Breeds/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Breed/Create
+        // POST: Breeds/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -65,7 +65,7 @@ namespace Vetreg.Controllers
             return View(breed);
         }
 
-        // GET: Breed/Edit/5
+        // GET: Breeds/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,7 +73,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var breed = await _context.Breed.FindAsync(id);
+            var breed = await _context.Breeds.FindAsync(id);
             if (breed == null)
             {
                 return NotFound();
@@ -81,7 +81,7 @@ namespace Vetreg.Controllers
             return View(breed);
         }
 
-        // POST: Breed/Edit/5
+        // POST: Breeds/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -116,7 +116,7 @@ namespace Vetreg.Controllers
             return View(breed);
         }
 
-        // GET: Breed/Delete/5
+        // GET: Breeds/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,7 +124,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var breed = await _context.Breed
+            var breed = await _context.Breeds
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (breed == null)
             {
@@ -134,20 +134,20 @@ namespace Vetreg.Controllers
             return View(breed);
         }
 
-        // POST: Breed/Delete/5
+        // POST: Breeds/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var breed = await _context.Breed.FindAsync(id);
-            _context.Breed.Remove(breed);
+            var breed = await _context.Breeds.FindAsync(id);
+            _context.Breeds.Remove(breed);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BreedExists(int id)
         {
-            return _context.Breed.Any(e => e.Id == id);
+            return _context.Breeds.Any(e => e.Id == id);
         }
     }
 }

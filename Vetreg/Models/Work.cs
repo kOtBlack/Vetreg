@@ -9,10 +9,21 @@ namespace Vetreg.Models {
         [Key]
         public Guid GUID { get; set; }
         public DateTime Date { get; set; }
-        public Region RegionId { get; set; }
-        public City CityId { get; set; }
-        public Owner OwnerId { get; set; }
-        public Cause CauseId { get; set; }
+        public int RegionId { get; set; }
+        public Region Region { get; set; }
+        public int CityId { get; set; }
+        public City City { get; set; }
+        public int OwnerId { get; set; }
+        public Owner Owner { get; set; }
+        public string CauseId { get; set; }
+        public Cause Cause { get; set; }
         public ICollection<Animal> Animals { get; set; }
+
+        public Work()
+        {
+            Animals = new List<Animal>();
+        }
+
+
     }
 }

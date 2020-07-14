@@ -13,18 +13,18 @@ namespace Vetreg.Controllers {
     public class CityController : Controller {
 
         private readonly ApplicationDbContext _context;
-
-        public IList<Region> _regions { get; set; }
+        private RegionsNameListModel _regions;
 
         public CityController(ApplicationDbContext context)
         {
             _context = context;
+            _regions = new RegionsNameListModel();
         }
 
         // GET: Citiy
         public async Task<IActionResult> Index()
         {
-            return View(await _context.City.ToListAsync());
+            return View(await _context.Cities.Include(c => c.Region).ToListAsync());
         }
 
         // GET: Citiy/Details/5
@@ -34,8 +34,8 @@ namespace Vetreg.Controllers {
             {
                 return NotFound();
             }
-
-            var city = await _context.City
+            var city = await _context.Cities
+                .Include(c => c.Region)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (city == null)
             {
@@ -48,6 +48,7 @@ namespace Vetreg.Controllers {
         // GET: Citiy/Create
         public IActionResult Create()
         {
+            ViewBag.RegionName = _regions.RegionsDropDownList(_context);
             return View();
         }
 
@@ -56,30 +57,43 @@ namespace Vetreg.Controllers {
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] City city)
+        public async Task<IActionResult> Create(/*[Bind("Id,Name,Region")] */City city)
         {
-            var emptyCity = new City();
+            //var emptyCity = new City();
 
-            if (await TryUpdateModelAsync<City>(
-                 emptyCity,
-                 "city",   // Prefix for form value.
-                 s => s.Id, s => s.Name, s => s.RegionId, s => s.Region)) {
-                _context.City.Add(emptyCity);
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
-            }
-
-            //var m = new RegionsNameListModel();
-            //m.RegionsDropDownList(_context, emptyCity.RegionId);
-            //_regions = m.RegionName.Select(r => r).ToList();
-            //_regions = _context.Region.ToList();
-            //if (ModelState.IsValid)
-            //{
-            //    _context.Add(city);
+            //if (await TryUpdateModelAsync<City>(
+            //     city,
+            //     "city",   // Prefix for form value.
+            //     c => c.Id, c => c.Name, c => c.Region == )) {
+            //    _context.City.Add(city);
             //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
+            //    return RedirectToAction("Index");
             //}
+
+            ////var m = new RegionsNameListModel();
+            //ViewBag.RegionName = _regions.RegionsDropDownList(_context, emptyCity.Region.Id);
+            ////_regions = m.RegionName.Select(r => r).ToList();
+            ////_regions = _context.Region.ToList();
+            ////if (ModelState.IsValid)
+            ////{
+            ////    _context.Add(city);
+            ////    await _context.SaveChangesAsync();
+            ////    return RedirectToAction(nameof(Index));
+            ////}
+            //return View(city);
+
+
+            if (ModelState.IsValid)
+            {
+                city.Region = _context.Regions.FirstOrDefault(c => c.Id == city.RegionId);
+                _context.Cities.Add(city); 
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            ViewBag.RegionName = _regions.RegionsDropDownList(_context);
             return View(city);
+
+
         }
 
         // GET: Citiy/Edit/5
@@ -90,11 +104,12 @@ namespace Vetreg.Controllers {
                 return NotFound();
             }
 
-            var city = await _context.City.FindAsync(id);
+            var city = await _context.Cities.FindAsync(id);
             if (city == null)
             {
                 return NotFound();
             }
+            ViewBag.RegionName = _regions.RegionsDropDownList(_context, city.RegionId);
             return View(city);
         }
 
@@ -103,7 +118,7 @@ namespace Vetreg.Controllers {
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] City city)
+        public async Task<IActionResult> Edit(int id, City city)
         {
             if (id != city.Id)
             {
@@ -141,7 +156,7 @@ namespace Vetreg.Controllers {
                 return NotFound();
             }
 
-            var city = await _context.City
+            var city = await _context.Cities
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (city == null)
             {
@@ -156,15 +171,15 @@ namespace Vetreg.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var city = await _context.City.FindAsync(id);
-            _context.City.Remove(city);
+            var city = await _context.Cities.FindAsync(id);
+            _context.Cities.Remove(city);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CityExists(int id)
         {
-            return _context.City.Any(e => e.Id == id);
+            return _context.Cities.Any(e => e.Id == id);
         }
     }
 }
