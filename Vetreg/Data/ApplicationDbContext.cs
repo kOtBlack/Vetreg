@@ -37,14 +37,12 @@ namespace Vetreg.Data {
             modelBuilder.Entity<WorkWithAnimal>()
                 .HasOne(sc => sc.Animal)
                 .WithMany(s => s.WorksWithAnimal)
-                .HasForeignKey(sc => sc.AnimalId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(sc => sc.AnimalId);
 
             modelBuilder.Entity<WorkWithAnimal>()
                 .HasOne(sc => sc.Work)
                 .WithMany(c => c.WorksWithAnimal)
-                .HasForeignKey(sc => sc.WorkId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(sc => sc.WorkId);
         }
     }
 }

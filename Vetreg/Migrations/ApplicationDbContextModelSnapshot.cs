@@ -615,13 +615,13 @@ namespace Vetreg.Migrations
                     b.HasOne("Vetreg.Models.Animal", "Animal")
                         .WithMany("WorksWithAnimal")
                         .HasForeignKey("AnimalId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Vetreg.Models.Work", "Work")
                         .WithMany("WorksWithAnimal")
                         .HasForeignKey("WorkId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

@@ -389,13 +389,13 @@ namespace Vetreg.Migrations
                         column: x => x.AnimalId,
                         principalTable: "Animals",
                         principalColumn: "GUID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_WorkWithAnimal_Works_WorkId",
                         column: x => x.WorkId,
                         principalTable: "Works",
                         principalColumn: "GUID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

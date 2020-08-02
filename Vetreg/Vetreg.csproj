@@ -40,10 +40,6 @@
     <Compile Remove="Migrations\20200720144151_AddWorkModel.Designer.cs" />
     <Compile Remove="Migrations\20200720144308_AddWorkModel.cs" />
     <Compile Remove="Migrations\20200720144308_AddWorkModel.Designer.cs" />
-    <Compile Remove="Migrations\20200802073516_newCascadaAction.cs" />
-    <Compile Remove="Migrations\20200802073516_newCascadaAction.Designer.cs" />
-    <Compile Remove="Migrations\20200802073620_newCascadaAction.cs" />
-    <Compile Remove="Migrations\20200802073620_newCascadaAction.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

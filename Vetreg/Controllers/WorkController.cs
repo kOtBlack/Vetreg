@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Vetreg.Data;
 using Vetreg.Models;
-using Vetreg.ViewModels;
 
 namespace Vetreg.Controllers
 {
@@ -52,16 +50,12 @@ namespace Vetreg.Controllers
         // GET: Works/Create
         public IActionResult Create()
         {
-            //ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id");
-            //ViewBag.Owner = new SelectList(_context.Owners.Include(o => o.Animals), "Id", "Name");
-            //ViewData["RegionId"] = new SelectList(_context.Regions, "Id", "Id");
 
-            var workOwner = new WorkOwnerViewModel
-            {
-                Owners = new SelectList(_context.Owners, "Id", "Name"),
-                Causes = new SelectList(_context.Causes, "GUID", "Name")
-            };
-            return View(workOwner);
+
+            //ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id");
+            ViewBag.Owner = new SelectList(_context.Owners.Include(o => o.Animals), "Id", "Name");
+            //ViewData["RegionId"] = new SelectList(_context.Regions, "Id", "Id");
+            return View();
         }
 
         // POST: Works/Create
