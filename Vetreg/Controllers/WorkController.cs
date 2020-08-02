@@ -22,7 +22,7 @@ namespace Vetreg.Controllers
         // GET: Works
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Works./*Include(w => w.City).*/Include(w => w.Owner)/*.Include(w => w.Region)*/;
+            var applicationDbContext = _context.Works.Include(c => c.Cause)/*Include(w => w.City).Include(w => w.Owner).Include(w => w.Region)*/;
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -36,7 +36,7 @@ namespace Vetreg.Controllers
 
             var work = await _context.Works
                 //.Include(w => w.City)
-                .Include(w => w.Owner)
+                //.Include(w => w.Owner)
                 //.Include(w => w.Region)
                 .FirstOrDefaultAsync(m => m.GUID == id);
             if (work == null)
@@ -50,7 +50,11 @@ namespace Vetreg.Controllers
         // GET: Works/Create
         public IActionResult Create()
         {
+            Work work = new Work() {
+                Date = DateTime.Now,
+                Owners = _context.Owners.Select(o => o).ToList()
 
+    };
 
             //ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id");
             ViewBag.Owner = new SelectList(_context.Owners.Include(o => o.Animals), "Id", "Name");
@@ -65,9 +69,8 @@ namespace Vetreg.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(/*[Bind("GUID,Date,RegionId,CityId,OwnerId,CauseId")]*/ Work work)
         {
-            _context.Works
                 //.Include(w => w.City)
-                .Include(w => w.Owner).Include(a => a.Owner.Animals);
+                //.Include(w => w.Owner).Include(a => a.Owner.Animals);
             //.Include(w => w.Region)
 
             if (ModelState.IsValid)
@@ -151,7 +154,7 @@ namespace Vetreg.Controllers
 
             var work = await _context.Works
                 //.Include(w => w.City)
-                .Include(w => w.Owner)
+                //.Include(w => w.Owner)
                 //.Include(w => w.Region)
                 .FirstOrDefaultAsync(m => m.GUID == id);
             if (work == null)
