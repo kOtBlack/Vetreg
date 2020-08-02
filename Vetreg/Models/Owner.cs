@@ -18,10 +18,9 @@ namespace Vetreg.Models {
         public City City { get; set; }
         public string Address { get; set; }
 
-        public ICollection<Animal> Animals { get; set; }
+        public ICollection<Animal> Animals { get; set; } = new List<Animal>();
 
         public Owner() {
-            Animals = new List<Animal>();
         } 
     }
 }

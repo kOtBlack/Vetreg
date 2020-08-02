@@ -11,7 +11,7 @@ namespace Vetreg.Models {
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime AddDate { get; set; }
+        public DateTime AddDate { get; set; } = DateTime.Now;
         public int RegionId { get; set; }
         public Region Region { get; set; }
         public int CityId { get; set; }
@@ -25,7 +25,9 @@ namespace Vetreg.Models {
         public int SuitId { get; set; }
         public Suit Suit { get; set; }
         public Sticker Sticker { get; set; }
-        public ICollection<Tag> Tags { get; set; }
+        public ICollection<Tag> Tags { get; set; } = new List<Tag>();
+        public ICollection<WorkWithAnimal> WorksWithAnimal { get; set; } = new List<WorkWithAnimal>();
+
         public string ChipNumber { get; set; }
 
         //[DataType(DataType.Date)]
@@ -35,8 +37,10 @@ namespace Vetreg.Models {
         public string Remark { get; set; }
         public bool IsRetired { get; set; } = false;
 
+        //public ICollection<Tag> Works { get; set; }
+
+
         public Animal() {
-            AddDate = DateTime.Now;
         }
     }
 }

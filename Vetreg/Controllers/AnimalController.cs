@@ -95,7 +95,7 @@ namespace Vetreg.Controllers
                 _context.Add(new Tag()
                 {
                     Name = animal.ChipNumber,
-                    AnimalId = animal.GUID.ToString()
+                   // AnimalGUID = animal.GUID.ToString()
 
                 });
 

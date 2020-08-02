@@ -15,7 +15,7 @@ namespace Vetreg.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.5")
+                .HasAnnotation("ProductVersion", "3.1.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -419,20 +419,59 @@ namespace Vetreg.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid?>("AnimalGUID")
+                    b.Property<Guid>("AnimalId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AnimalId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AnimalGUID");
+                    b.HasIndex("AnimalId");
 
                     b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("Vetreg.Models.Work", b =>
+                {
+                    b.Property<Guid>("GUID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CauseGUID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CauseId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GUID");
+
+                    b.HasIndex("CauseGUID");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Works");
+                });
+
+            modelBuilder.Entity("Vetreg.Models.WorkWithAnimal", b =>
+                {
+                    b.Property<Guid>("AnimalId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("WorkId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AnimalId", "WorkId");
+
+                    b.HasIndex("WorkId");
+
+                    b.ToTable("WorkWithAnimal");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -551,9 +590,39 @@ namespace Vetreg.Migrations
 
             modelBuilder.Entity("Vetreg.Models.Tag", b =>
                 {
-                    b.HasOne("Vetreg.Models.Animal", null)
+                    b.HasOne("Vetreg.Models.Animal", "Animal")
                         .WithMany("Tags")
-                        .HasForeignKey("AnimalGUID");
+                        .HasForeignKey("AnimalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Vetreg.Models.Work", b =>
+                {
+                    b.HasOne("Vetreg.Models.Cause", "Cause")
+                        .WithMany()
+                        .HasForeignKey("CauseGUID");
+
+                    b.HasOne("Vetreg.Models.Owner", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Vetreg.Models.WorkWithAnimal", b =>
+                {
+                    b.HasOne("Vetreg.Models.Animal", "Animal")
+                        .WithMany("WorksWithAnimal")
+                        .HasForeignKey("AnimalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vetreg.Models.Work", "Work")
+                        .WithMany("WorksWithAnimal")
+                        .HasForeignKey("WorkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

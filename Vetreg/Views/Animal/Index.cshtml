@@ -101,9 +101,11 @@
                     </td>*@
 
                 @{
+                    
+
                     double age = (double)((DateTime.Now - item.Birthday).TotalDays / 365.242199);
                     <td>
-                        @age
+                        @String.Format("{0:f}", age);
                     </td>
                 }
 

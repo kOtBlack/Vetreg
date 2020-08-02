@@ -20,6 +20,7 @@ namespace Vetreg.Controllers {
             _context = context;
             _regions = new RegionsNameListModel();
             _cities = new CitiesNameListModel();
+
         }
 
         // GET: Owners
@@ -42,7 +43,7 @@ namespace Vetreg.Controllers {
             {
                 return NotFound();
             }
-
+            owner.Animals = _context.Animals.Where(a => a.OwnerId == owner.Id).Select(a => a).ToList();
             return View(owner);
         }
 
@@ -106,9 +107,12 @@ namespace Vetreg.Controllers {
             {
                 try
                 {
-                    owner.City = _context.Cities.FirstOrDefault(c => c.Id == owner.CityId);
-                    owner.Region = _context.Regions.FirstOrDefault(r => r.Id == owner.RegionId);
+                    City city = _context.Cities.FirstOrDefault(c => c.Id == owner.CityId);
+                    owner.CityId = city.Id;
+                    owner.RegionId = city.RegionId;
                     _context.Update(owner);
+
+                    //_context.Update(owner);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
