@@ -1,5 +1,4 @@
 ﻿@model Vetreg.Models.Work
-@using Vetreg.Models.Owner
 
 @{
     ViewData["Title"] = "Create";
@@ -19,13 +18,13 @@
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                    <label asp-for="RegionId" class="control-label"></label>
-                    <select asp-for="RegionId" class ="form-control" asp-items="ViewBag.RegionId"></select>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CityId" class="control-label"></label>
-                    <select asp-for="CityId" class ="form-control" asp-items="ViewBag.CityId"></select>
-                </div>*@
+            <label asp-for="RegionId" class="control-label"></label>
+            <select asp-for="RegionId" class ="form-control" asp-items="ViewBag.RegionId"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="CityId" class="control-label"></label>
+            <select asp-for="CityId" class ="form-control" asp-items="ViewBag.CityId"></select>
+        </div>*@
 
             <div class="form-group">
                 <label asp-for="CauseId" class="control-label"></label>
@@ -41,13 +40,20 @@
             </div>
 
 
+            @*<div class="form-group">
+                <label asp-for="OwnerId" class="control-label"></label>
+                <select asp-for="OwnerId" class="form-control"
+                        asp-items="@Html.DropDownList("ownerid", Model.Owners as SelectList)"></select>
+            </div>*@
 
-                @*<div class="form-group form-check">
-                        <label class="form-check-label">
-                            <input type="hidden" value="@animal.GUID" />
-                            <input class="form-check-input" asp-for="@animal.ChipNumber" /> @Html.DisplayNameFor(animal => animal.OwnerId)
-                        </label>
-                    </div>*@
+
+
+            @*<div class="form-group form-check">
+            <label class="form-check-label">
+                <input type="hidden" value="@Model.animal.GUID" />
+                <input class="form-check-input" asp-for="@animal.ChipNumber" />
+            </label>
+        </div>*@
 
 
 

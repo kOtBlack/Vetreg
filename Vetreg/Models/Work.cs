@@ -14,8 +14,8 @@ namespace Vetreg.Models {
         //public int CityId { get; set; }
         //public City City { get; set; }
         public int OwnerId { get; set; }
-        public Owner Owner { get; set; }
-        public string CauseId { get; set; }
+        public ICollection<Owner> Owners { get; set; } = new List<Owner>();
+        public int CauseId { get; set; }
         public Cause Cause { get; set; }
         public ICollection<WorkWithAnimal> WorksWithAnimal { get; set; } = new List<WorkWithAnimal>();
 

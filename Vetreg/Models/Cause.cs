@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Vetreg.Models {
     public class Cause {
         [Key]
-        public Guid GUID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }
