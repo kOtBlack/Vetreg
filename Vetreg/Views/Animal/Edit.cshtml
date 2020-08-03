@@ -13,60 +13,64 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="GUID" />
-            <div class="form-group">
-                <label asp-for="AddDate" class="control-label"></label>
-                <input asp-for="AddDate" class="form-control" />
-                <span asp-validation-for="AddDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RegionId" class="control-label"></label>
-                <input asp-for="RegionId" class="form-control" />
-                <span asp-validation-for="RegionId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CityId" class="control-label"></label>
-                <input asp-for="CityId" class="form-control" />
-                <span asp-validation-for="CityId" class="text-danger"></span>
-            </div>
+            @*<div class="form-group">
+            <label asp-for="AddDate" class="control-label"></label>
+            <input asp-for="AddDate" class="form-control" />
+            <span asp-validation-for="AddDate" class="text-danger"></span>
+        </div>*@
+            @*<div class="form-group">
+            <label asp-for="RegionId" class="control-label"></label>
+            <input asp-for="RegionId" class="form-control" />
+            <span asp-validation-for="RegionId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CityId" class="control-label"></label>
+            <input asp-for="CityId" class="form-control" />
+            <span asp-validation-for="CityId" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 <label asp-for="OwnerId" class="control-label"></label>
-                <select asp-for="OwnerId" class="form-control" asp-items="ViewBag.OwnerId"></select>
-                <span asp-validation-for="OwnerId" class="text-danger"></span>
+                <select asp-for="OwnerId" class="form-control"
+                        asp-items="ViewBag.Owners">
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="KindId" class="control-label"></label>
-                <input asp-for="KindId" class="form-control" />
-                <span asp-validation-for="KindId" class="text-danger"></span>
+                <select asp-for="KindId" class="form-control"
+                        asp-items="ViewBag.Kinds">
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="BreedId" class="control-label"></label>
-                <input asp-for="BreedId" class="form-control" />
-                <span asp-validation-for="BreedId" class="text-danger"></span>
+                <select asp-for="BreedId" class="form-control"
+                        asp-items="ViewBag.Breeds">
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="SuitId" class="control-label"></label>
-                <input asp-for="SuitId" class="form-control" />
-                <span asp-validation-for="SuitId" class="text-danger"></span>
+                <select asp-for="SuitId" class="form-control"
+                        asp-items="ViewBag.Suits">
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Sticker" class="control-label"></label>
-                <select asp-for="Sticker" class="form-control"></select>
-                <span asp-validation-for="Sticker" class="text-danger"></span>
+                <select asp-for="Sticker"
+                        asp-items="Html.GetEnumSelectList<Sticker>()"></select>
             </div>
             <div class="form-group">
                 <label asp-for="ChipNumber" class="control-label"></label>
                 <input asp-for="ChipNumber" class="form-control" />
                 <span asp-validation-for="ChipNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="Birthday" class="control-label"></label>
-                <input asp-for="Birthday" class="form-control" />
+                <input asp-for="Birthday" asp-format="{0:MM.yyyy}" class="form-control" />
                 <span asp-validation-for="Birthday" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <input asp-for="Gender" class="form-control" />
-                <span asp-validation-for="Gender" class="text-danger"></span>
+                <label asp-for="Gender" class="control-label"></label><br />
+                <input type="radio" asp-for="Gender" value="0" /> Male
+                <input type="radio" asp-for="Gender" value="1" selected /> Female<br />
             </div>
             <div class="form-group">
                 <label asp-for="Remark" class="control-label"></label>

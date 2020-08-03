@@ -39,12 +39,18 @@
                         asp-items="ViewBag.Owner"></select>
             </div>
 
+            <div class="form-group">
+                <label asp-for="CauseId" class="control-label"></label>
+                <select asp-for="CauseId" class="form-control"
+                        asp-items="ViewBag.Causes"></select>
+            </div>
+
 
             @*<div class="form-group">
-                <label asp-for="OwnerId" class="control-label"></label>
-                <select asp-for="OwnerId" class="form-control"
-                        asp-items="@Html.DropDownList("ownerid", Model.Owners as SelectList)"></select>
-            </div>*@
+            <label asp-for="OwnerId" class="control-label"></label>
+            <select asp-for="OwnerId" class="form-control"
+                    asp-items="@Html.DropDownList("ownerid", Model.Owners as SelectList)"></select>
+        </div>*@
 
 
 
