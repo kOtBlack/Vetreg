@@ -6,11 +6,57 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5" />
+    <Compile Remove="Data\Migrations\20200707103300_AddModelInDB.cs" />
+    <Compile Remove="Data\Migrations\20200707103300_AddModelInDB.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200709091324_AddModelInDB.cs" />
+    <Compile Remove="Data\Migrations\20200709091324_AddModelInDB.Designer.cs" />
+    <Compile Remove="Migrations\20200709092348_AddModelInDB.cs" />
+    <Compile Remove="Migrations\20200709092348_AddModelInDB.Designer.cs" />
+    <Compile Remove="Migrations\20200710102546_AddOwnerModelInDB.cs" />
+    <Compile Remove="Migrations\20200710102546_AddOwnerModelInDB.Designer.cs" />
+    <Compile Remove="Migrations\20200712062653_AddAnimalModelInDB.cs" />
+    <Compile Remove="Migrations\20200712062653_AddAnimalModelInDB.Designer.cs" />
+    <Compile Remove="Migrations\20200712091115_UpdateTagModelInDB.cs" />
+    <Compile Remove="Migrations\20200712091115_UpdateTagModelInDB.Designer.cs" />
+    <Compile Remove="Migrations\20200712091527_UpdateTagModelInDB.cs" />
+    <Compile Remove="Migrations\20200712091527_UpdateTagModelInDB.Designer.cs" />
+    <Compile Remove="Migrations\20200712091640_UpdateTagModelInDB.cs" />
+    <Compile Remove="Migrations\20200712091640_UpdateTagModelInDB.Designer.cs" />
+    <Compile Remove="Migrations\20200712091801_Update2TagModelInDB.cs" />
+    <Compile Remove="Migrations\20200712091801_Update2TagModelInDB.Designer.cs" />
+    <Compile Remove="Migrations\20200713080124_AddColumn.cs" />
+    <Compile Remove="Migrations\20200713080124_AddColumn.Designer.cs" />
+    <Compile Remove="Migrations\20200713080556_UpdateTagModelInDB.cs" />
+    <Compile Remove="Migrations\20200713080556_UpdateTagModelInDB.Designer.cs" />
+    <Compile Remove="Migrations\20200720141744_AddWorkModel.cs" />
+    <Compile Remove="Migrations\20200720141744_AddWorkModel.Designer.cs" />
+    <Compile Remove="Migrations\20200720142122_AddWorkModel.cs" />
+    <Compile Remove="Migrations\20200720142122_AddWorkModel.Designer.cs" />
+    <Compile Remove="Migrations\20200720142743_AddWorkModel.cs" />
+    <Compile Remove="Migrations\20200720142743_AddWorkModel.Designer.cs" />
+    <Compile Remove="Migrations\20200720143709_AddWorkModel.cs" />
+    <Compile Remove="Migrations\20200720143709_AddWorkModel.Designer.cs" />
+    <Compile Remove="Migrations\20200720144151_AddWorkModel.cs" />
+    <Compile Remove="Migrations\20200720144151_AddWorkModel.Designer.cs" />
+    <Compile Remove="Migrations\20200720144308_AddWorkModel.cs" />
+    <Compile Remove="Migrations\20200720144308_AddWorkModel.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>
