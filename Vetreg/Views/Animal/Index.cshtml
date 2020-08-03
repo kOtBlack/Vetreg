@@ -42,14 +42,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.ChipNumber)
             </th>
-
             <th>
                 Age
             </th>
-
-            @*<th>
-                    @Html.DisplayNameFor(model => model.Birthday)
-                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Gender)
             </th>
@@ -65,75 +60,77 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Owner.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Owner.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Region.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kind.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Breed.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Suit.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sticker)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChipNumber)
+            </td>
+            @*@{
                 <td>
-                    @Html.DisplayFor(modelItem => item.AddDate)
+                    @String.Format("{0:f}", (float)((DateTime.Now - item.Birthday).TotalDays / 365.242199))
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Owner.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Owner.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Region.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.City.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Kind.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Breed.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Suit.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sticker)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ChipNumber)
-                </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.Birthday)
-                    </td>*@
-
-                @{
-                    
-
-                    double age = (double)((DateTime.Now - item.Birthday).TotalDays / 365.242199);
-                    <td>
-                        @String.Format("{0:f}", age);
-                    </td>
+            }*@
+            @{
+                DateTime age = DateTime.MinValue + (TimeSpan)(DateTime.Now - item.Birthday);
+                @*string a = ($"{age.Year - 1},{age.Month - 1}");
+                float.TryParse(a, out float fAge);
+                        <td>
+                            @fAge.ToString()
+                        </td>*@
+                <td >
+                    @($"{age.Year - 1}.{age.Month - 1}")
+                </td >
                 }
-
                 @if (item.Gender == 0)
                 {
                     <td>
-                        "М"
+                        М
                     </td>
                 }
                 else
                 {
                     <td>
-                        "Ж"
-
+                        Ж
                     </td>
                 }
-                <td>
-                    @Html.DisplayFor(modelItem => item.Remark)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsRetired)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.GUID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.GUID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.GUID">Delete</a>
-                </td>
-            </tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Remark)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsRetired)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.GUID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.GUID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.GUID">Delete</a>
+                    </td>
+                </tr>
         }
     </tbody>
 </table>

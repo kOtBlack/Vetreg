@@ -38,7 +38,8 @@ namespace Vetreg.Controllers
         public async Task<IActionResult> Index()
         {
 
-            return View(await _context.Animals.Include(r => r.Region)
+            return View(await _context.Animals
+                .Include(r => r.Region)
                 .Include(c => c.City)
                 .Include(k => k.Kind)
                 .Include(b => b.Breed)
@@ -56,11 +57,18 @@ namespace Vetreg.Controllers
             }
 
             var animal = await _context.Animals
-                .FirstOrDefaultAsync(m => m.GUID == id);
+                .FirstOrDefaultAsync(a => a.GUID == id);
             if (animal == null)
             {
                 return NotFound();
             }
+            animal.Region = _context.Regions.FirstOrDefault(a => a.Id == animal.RegionId);
+            animal.City = _context.Cities.FirstOrDefault(a => a.Id == animal.CityId);
+            animal.Kind = _context.Kinds.FirstOrDefault(a => a.Id == animal.KindId);
+            animal.Breed = _context.Breeds.FirstOrDefault(a => a.Id == animal.BreedId);
+            animal.Suit = _context.Suits.FirstOrDefault(a => a.Id == animal.SuitId);
+            animal.Owner = _context.Owners.FirstOrDefault(a => a.Id == animal.OwnerId);
+            animal.Tags = _context.Tags.Where(a => a.AnimalId == animal.GUID).ToList();
 
             return View(animal);
         }
@@ -68,12 +76,11 @@ namespace Vetreg.Controllers
         // GET: Animals/Create
         public IActionResult Create()
         {
-            ViewBag.Cities = _cities;
+            //ViewBag.Cities = _cities;
             ViewBag.Kinds = _kinds;
             ViewBag.Breeds = _breeds;
             ViewBag.Suits = _suits;
             ViewBag.Owners = _owners;
-
 
             return View();
         }
@@ -89,18 +96,18 @@ namespace Vetreg.Controllers
             {
                 animal.GUID = Guid.NewGuid();
 
+
+                animal.CityId = _context.Owners.FirstOrDefault(o => o.Id == animal.OwnerId).CityId;
                 animal.RegionId = _context.Cities.FirstOrDefault(c => c.Id == animal.CityId).RegionId;
 
-                if (animal.Sticker == Sticker.Tag)
-                _context.Add(new Tag()
-                {
-                    Name = animal.ChipNumber,
-                   // AnimalGUID = animal.GUID.ToString()
-
-                });
+                if (animal.Sticker == Sticker.Tag) {
+                    _context.Tags.Add(new Tag()
+                    {
+                        Name = animal.ChipNumber,
+                    });
+                }
 
                 _context.Add(animal);
-
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -121,6 +128,12 @@ namespace Vetreg.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Kinds = _kinds;
+            ViewBag.Breeds = _breeds;
+            ViewBag.Suits = _suits;
+            ViewBag.Owners = _owners;
+
             return View(animal);
         }
 
@@ -140,6 +153,15 @@ namespace Vetreg.Controllers
             {
                 try
                 {
+                    animal.CityId = _context.Owners.FirstOrDefault(o => o.Id == animal.OwnerId).CityId;
+                    animal.RegionId = _context.Cities.FirstOrDefault(c => c.Id == animal.CityId).RegionId;
+
+                    if (animal.Sticker == Sticker.Tag)
+                        _context.Add(new Tag()
+                        {
+                            Name = animal.ChipNumber,
+                        });
+
                     _context.Update(animal);
                     await _context.SaveChangesAsync();
                 }
@@ -173,6 +195,10 @@ namespace Vetreg.Controllers
             {
                 return NotFound();
             }
+            animal.Kind = _context.Kinds.FirstOrDefault(k => k.Id == animal.KindId);
+            animal.Breed = _context.Breeds.FirstOrDefault(b => b.Id == animal.BreedId);
+            animal.Suit = _context.Suits.FirstOrDefault(s => s.Id == animal.SuitId);
+            animal.Owner = _context.Owners.FirstOrDefault(o => o.Id == animal.OwnerId);
 
             return View(animal);
         }
@@ -198,15 +224,33 @@ namespace Vetreg.Controllers
         /// </summary>  
         /// <param name="dateOfBirth">Date of birth</param>  
         /// <returns> age </returns>  
-        private static int CalculateAge(DateTime dateOfBirth)
+        private static float CalculateAge(DateTime dateOfBirth)
         {
-            int age = 0;
-            age = DateTime.Now.Year - dateOfBirth.Year;
-            if (DateTime.Now.DayOfYear < dateOfBirth.DayOfYear)
-                age = age - 1;
+            //DateTime birth = new DateTime(1974, 8, 29);
+            //DateTime today = DateTime.Now;
+            //TimeSpan span = today - birth;
+            //DateTime age = DateTime.MinValue + span;
+
+            //// Make adjustment due to MinValue equalling 1/1/1
+            //int years = age.Year - 1;
+            //int months = age.Month - 1;
+            //int days = age.Day - 1;
+
+            //// Print out not only how many years old they are but give months and days as well
+            //Console.Write("{0} years, {1} months, {2} days", years, months, days);
+
+            float age = 0;
+            //age = DateTime.Now.Year - dateOfBirth.Year;
+            //if (DateTime.Now.DayOfYear < dateOfBirth.DayOfYear)
+            //    age = age - 1;
 
             return age;
         }
+
+
+
+
+
 
     }
 }

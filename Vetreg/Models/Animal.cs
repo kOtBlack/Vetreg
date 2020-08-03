@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,6 +35,7 @@ namespace Vetreg.Models {
         //[DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Birthday { get; set; }
+        [NotMapped]
         public byte Gender { get; set; } = 1;
         public string Remark { get; set; }
         public bool IsRetired { get; set; } = false;

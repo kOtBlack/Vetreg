@@ -57,6 +57,7 @@ namespace Vetreg.Controllers
     };
 
             //ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id");
+            ViewBag.Cause = new SelectList(_context.Causes, "Id", "Name");
             ViewBag.Owner = new SelectList(_context.Owners.Include(o => o.Animals), "Id", "Name");
             //ViewData["RegionId"] = new SelectList(_context.Regions, "Id", "Id");
             return View();

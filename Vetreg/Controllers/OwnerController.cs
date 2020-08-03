@@ -38,12 +38,14 @@ namespace Vetreg.Controllers {
             }
 
             var owner = await _context.Owners
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(o => o.Id == id);
             if (owner == null)
             {
                 return NotFound();
             }
-            owner.Animals = _context.Animals.Where(a => a.OwnerId == owner.Id).Select(a => a).ToList();
+            owner.Animals = _context.Animals.Where(o => o.OwnerId == owner.Id).Select(o => o).ToList();
+            owner.City = _context.Cities.FirstOrDefault(o => o.Id == owner.CityId);
+            owner.Region = _context.Regions.FirstOrDefault(o => o.Id == owner.RegionId);
             return View(owner);
         }
 
@@ -145,7 +147,8 @@ namespace Vetreg.Controllers {
             {
                 return NotFound();
             }
-
+            owner.City = _context.Cities.FirstOrDefault(o => o.Id == owner.CityId);
+            owner.Region = _context.Regions.FirstOrDefault(o => o.Id == owner.RegionId);
             return View(owner);
         }
 
