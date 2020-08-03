@@ -147,7 +147,8 @@ namespace Vetreg.Controllers {
             {
                 return NotFound();
             }
-
+            owner.City = _context.Cities.FirstOrDefault(o => o.Id == owner.CityId);
+            owner.Region = _context.Regions.FirstOrDefault(o => o.Id == owner.RegionId);
             return View(owner);
         }
 
