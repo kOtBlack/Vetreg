@@ -85,9 +85,15 @@
             <label asp-for="Animals" class="control-label"></label>
             <select asp-for="AnimalsId" class="form-control" asp-items="Model.Animals"></select>@*multiple*@
 
+
+
+            @Html.ListBoxFor(m => m.AnimalsId, Model.Animals, new { @Id = "lstcountry", @style = "width:200px;height:60px;" })
+
+
+
             @*@Html.ListBoxFor(m => m.Owners, (MultiSelectList)(Model.Owners), new { multiple = "true", @class = "form-controle select2-multiselect-checkbox" });*@
             @*<select asp-for="OwnerId" class="form-control"
-            asp-items="Model.Owners"></select>*@
+        asp-items="Model.Owners"></select>*@
         </div>
     </div>
 </div>
