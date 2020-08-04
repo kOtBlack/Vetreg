@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Vetreg.Data;
 using Vetreg.Models;
 using Vetreg.ViewModels;
@@ -21,11 +22,24 @@ namespace Vetreg.Controllers
         }
 
         // GET: Works
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            var applicationDbContext = _context.Works.Include(c => c.Cause).Include(d => d.Disease)/*Include(w => w.City).Include(w => w.Owner).Include(w => w.Region)*/;
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = await _context.Works.Include(c => c.Cause).Include(d => d.Disease).ToListAsync()/*Include(w => w.City).Include(w => w.Owner).Include(w => w.Region)*/;
+            if (sortOrder == null)
+            {
+                applicationDbContext.OrderBy(w => w.Cause.Id);
+                sortOrder = "desc";
+            }
+            else
+            {
+                applicationDbContext.OrderByDescending(w => w.Cause.Id);
+                sortOrder = "";
+            }
+
+            ViewBag.Order = sortOrder;
+            return View( applicationDbContext);
         }
+
 
         // GET: Works/Details/5
         public async Task<IActionResult> Details(Guid? id)

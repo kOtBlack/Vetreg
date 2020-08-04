@@ -24,9 +24,9 @@
             @*<th>
             @Html.DisplayNameFor(model => model.Owner)
         </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.CauseId)
-            </th>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.Order">@Html.DisplayNameFor(model => model.CauseId)</a>
+        </th>
             <th>
                 @Html.DisplayNameFor(model => model.DiseaseId)
             </th>
