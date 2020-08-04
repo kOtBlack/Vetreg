@@ -107,6 +107,8 @@ namespace Vetreg.Controllers
                     });
                 }
 
+                if (animal.Birthday > DateTime.Now) animal.Birthday = DateTime.Now;
+
                 _context.Add(animal);
 
                 await _context.SaveChangesAsync();

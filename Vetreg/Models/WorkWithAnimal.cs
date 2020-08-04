@@ -9,7 +9,5 @@ namespace Vetreg.Models {
         public Animal Animal { get; set; }
         public Guid WorkId { get; set; }
         public Work Work { get; set; }
-
-
     }
 }

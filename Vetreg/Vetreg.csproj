@@ -6,10 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\20200707103300_AddModelInDB.cs" />
-    <Compile Remove="Data\Migrations\20200707103300_AddModelInDB.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200709091324_AddModelInDB.cs" />
-    <Compile Remove="Data\Migrations\20200709091324_AddModelInDB.Designer.cs" />
+    <Compile Remove="Data\Migrations\**" />
+    <Content Remove="Data\Migrations\**" />
+    <EmbeddedResource Remove="Data\Migrations\**" />
+    <None Remove="Data\Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Migrations\20200709092348_AddModelInDB.cs" />
     <Compile Remove="Migrations\20200709092348_AddModelInDB.Designer.cs" />
     <Compile Remove="Migrations\20200710102546_AddOwnerModelInDB.cs" />
@@ -40,6 +43,10 @@
     <Compile Remove="Migrations\20200720144151_AddWorkModel.Designer.cs" />
     <Compile Remove="Migrations\20200720144308_AddWorkModel.cs" />
     <Compile Remove="Migrations\20200720144308_AddWorkModel.Designer.cs" />
+    <Compile Remove="Migrations\20200804012714_AddDisease.cs" />
+    <Compile Remove="Migrations\20200804012714_AddDisease.Designer.cs" />
+    <Compile Remove="Migrations\20200804013335_AddDisease.cs" />
+    <Compile Remove="Migrations\20200804013335_AddDisease.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,10 +60,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>

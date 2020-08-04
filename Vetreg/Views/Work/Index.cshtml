@@ -16,16 +16,19 @@
                 @Html.DisplayNameFor(model => model.Date)
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.Region)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.City)
-            </th>*@
+            @Html.DisplayNameFor(model => model.Region)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>*@
             @*<th>
-                @Html.DisplayNameFor(model => model.Owner)
-            </th>*@
+            @Html.DisplayNameFor(model => model.Owner)
+        </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.CauseId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiseaseId)
             </th>
             <th></th>
         </tr>
@@ -37,16 +40,19 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             @*<td>
-                @Html.DisplayFor(modelItem => item.Region.Id)
+            @Html.DisplayFor(modelItem => item.Region.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City.Id)
+        </td>*@
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Owner.Id)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Cause.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.City.Id)
-            </td>*@
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Owner.Id)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.CauseId)
+                @Html.DisplayFor(modelItem => item.Disease.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.GUID">Edit</a> |

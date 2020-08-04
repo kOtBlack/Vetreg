@@ -10,10 +10,10 @@
     <h4>Work</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Date)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Date)
         </dd>
         @*<dt class = "col-sm-2">
@@ -34,14 +34,49 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Owner.Id)
         </dd>*@
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CauseId)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CauseId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Cause.Name)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DiseaseId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Disease.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AnimalsId)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AnimalsId)
+        </dt>
     </dl>
 </div>
+<div class="form-group">
+    <div class="table">
+        <table>
+            <tr>
+                @{ int cnt = 0;
+
+                    foreach (var animal in Model.AnimalsId)
+                    {
+                        if (cnt++ % 3 == 0)
+                        {
+                        @:</tr><tr>
+                        }
+                        @:<td>
+                            @: id: @animal
+                        }
+                    @:</tr>
+                }
+
+            </table>
+        </div>
+    </div>
+
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.GUID">Edit</a> |
     <a asp-action="Index">Back to List</a>

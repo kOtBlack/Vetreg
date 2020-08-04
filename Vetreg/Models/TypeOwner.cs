@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Vetreg.Models {
     public enum TypeOwner {
         [Display(Name = "Юридическое лицо")]
-        Entity,
+        Company,
         [Display(Name = "Физическое лицо")]
         Individual
     }

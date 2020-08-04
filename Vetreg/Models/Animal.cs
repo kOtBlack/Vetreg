@@ -32,16 +32,13 @@ namespace Vetreg.Models {
 
         public string ChipNumber { get; set; }
 
-        //[DataType(DataType.Date)]
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Birthday { get; set; }
         [NotMapped]
         public byte Gender { get; set; } = 1;
         public string Remark { get; set; }
         public bool IsRetired { get; set; } = false;
-
-        //public ICollection<Tag> Works { get; set; }
-
 
         public Animal() {
         }

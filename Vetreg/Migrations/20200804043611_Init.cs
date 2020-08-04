@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Vetreg.Migrations
 {
-    public partial class AddModels : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -60,15 +60,29 @@ namespace Vetreg.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Causes",
+                name: "Cause",
                 columns: table => new
                 {
-                    GUID = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Causes", x => x.GUID);
+                    table.PrimaryKey("PK_Cause", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Disease",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Disease", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -217,6 +231,33 @@ namespace Vetreg.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Works",
+                columns: table => new
+                {
+                    GUID = table.Column<Guid>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    CauseId = table.Column<int>(nullable: false),
+                    DiseaseId = table.Column<int>(nullable: false),
+                    OwnerId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Works", x => x.GUID);
+                    table.ForeignKey(
+                        name: "FK_Works_Cause_CauseId",
+                        column: x => x.CauseId,
+                        principalTable: "Cause",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Works_Disease_DiseaseId",
+                        column: x => x.DiseaseId,
+                        principalTable: "Disease",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cities",
                 columns: table => new
                 {
@@ -248,7 +289,8 @@ namespace Vetreg.Migrations
                     Type = table.Column<int>(nullable: false),
                     RegionId = table.Column<int>(nullable: false),
                     CityId = table.Column<int>(nullable: false),
-                    Address = table.Column<string>(nullable: true)
+                    Address = table.Column<string>(nullable: true),
+                    WorkGUID = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -257,14 +299,20 @@ namespace Vetreg.Migrations
                         name: "FK_Owners_Cities_CityId",
                         column: x => x.CityId,
                         principalTable: "Cities",
-                        principalColumn: "Id"
-                        , onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Owners_Regions_RegionId",
                         column: x => x.RegionId,
                         principalTable: "Regions",
-                        principalColumn: "Id"
-                        , onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Owners_Works_WorkGUID",
+                        column: x => x.WorkGUID,
+                        principalTable: "Works",
+                        principalColumn: "GUID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -282,7 +330,6 @@ namespace Vetreg.Migrations
                     Sticker = table.Column<int>(nullable: false),
                     ChipNumber = table.Column<string>(nullable: true),
                     Birthday = table.Column<DateTime>(nullable: false),
-                    Gender = table.Column<byte>(nullable: false),
                     Remark = table.Column<string>(nullable: true),
                     IsRetired = table.Column<bool>(nullable: false)
                 },
@@ -293,65 +340,38 @@ namespace Vetreg.Migrations
                         name: "FK_Animals_Breeds_BreedId",
                         column: x => x.BreedId,
                         principalTable: "Breeds",
-                        principalColumn: "Id"
-                        , onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Animals_Cities_CityId",
                         column: x => x.CityId,
                         principalTable: "Cities",
-                        principalColumn: "Id"
-                        , onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Animals_Kinds_KindId",
                         column: x => x.KindId,
                         principalTable: "Kinds",
-                        principalColumn: "Id"
-                        , onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Animals_Owners_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "Owners",
-                        principalColumn: "Id"
-                        , onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Animals_Regions_RegionId",
                         column: x => x.RegionId,
                         principalTable: "Regions",
-                        principalColumn: "Id"
-                        , onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Animals_Suits_SuitId",
                         column: x => x.SuitId,
                         principalTable: "Suits",
-                        principalColumn: "Id"
-                        , onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Works",
-                columns: table => new
-                {
-                    GUID = table.Column<Guid>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false),
-                    OwnerId = table.Column<int>(nullable: false),
-                    CauseId = table.Column<string>(nullable: true),
-                    CauseGUID = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Works", x => x.GUID);
-                    table.ForeignKey(
-                        name: "FK_Works_Causes_CauseGUID",
-                        column: x => x.CauseGUID,
-                        principalTable: "Causes",
-                        principalColumn: "GUID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Works_Owners_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Owners",
-                        principalColumn: "Id"
-                        , onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -483,19 +503,24 @@ namespace Vetreg.Migrations
                 column: "RegionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Owners_WorkGUID",
+                table: "Owners",
+                column: "WorkGUID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tags_AnimalId",
                 table: "Tags",
                 column: "AnimalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Works_CauseGUID",
+                name: "IX_Works_CauseId",
                 table: "Works",
-                column: "CauseGUID");
+                column: "CauseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Works_OwnerId",
+                name: "IX_Works_DiseaseId",
                 table: "Works",
-                column: "OwnerId");
+                column: "DiseaseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WorkWithAnimal_WorkId",
@@ -536,28 +561,31 @@ namespace Vetreg.Migrations
                 name: "Animals");
 
             migrationBuilder.DropTable(
-                name: "Works");
-
-            migrationBuilder.DropTable(
                 name: "Breeds");
 
             migrationBuilder.DropTable(
                 name: "Kinds");
 
             migrationBuilder.DropTable(
-                name: "Suits");
-
-            migrationBuilder.DropTable(
-                name: "Causes");
-
-            migrationBuilder.DropTable(
                 name: "Owners");
+
+            migrationBuilder.DropTable(
+                name: "Suits");
 
             migrationBuilder.DropTable(
                 name: "Cities");
 
             migrationBuilder.DropTable(
+                name: "Works");
+
+            migrationBuilder.DropTable(
                 name: "Regions");
+
+            migrationBuilder.DropTable(
+                name: "Cause");
+
+            migrationBuilder.DropTable(
+                name: "Disease");
         }
     }
 }

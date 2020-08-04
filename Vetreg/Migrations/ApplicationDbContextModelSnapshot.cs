@@ -240,9 +240,6 @@ namespace Vetreg.Migrations
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<byte>("Gender")
-                        .HasColumnType("tinyint");
-
                     b.Property<bool>("IsRetired")
                         .HasColumnType("bit");
 
@@ -329,6 +326,21 @@ namespace Vetreg.Migrations
                     b.HasIndex("RegionId");
 
                     b.ToTable("Cities");
+                });
+
+            modelBuilder.Entity("Vetreg.Models.Disease", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Disease");
                 });
 
             modelBuilder.Entity("Vetreg.Models.Kind", b =>
@@ -450,12 +462,17 @@ namespace Vetreg.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("DiseaseId")
+                        .HasColumnType("int");
+
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
 
                     b.HasKey("GUID");
 
                     b.HasIndex("CauseId");
+
+                    b.HasIndex("DiseaseId");
 
                     b.ToTable("Works");
                 });
@@ -607,6 +624,12 @@ namespace Vetreg.Migrations
                     b.HasOne("Vetreg.Models.Cause", "Cause")
                         .WithMany()
                         .HasForeignKey("CauseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vetreg.Models.Disease", "Disease")
+                        .WithMany()
+                        .HasForeignKey("DiseaseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -10,8 +10,8 @@ using Vetreg.Data;
 namespace Vetreg.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200802065030_AddCause")]
-    partial class AddCause
+    [Migration("20200804043611_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -242,9 +242,6 @@ namespace Vetreg.Migrations
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<byte>("Gender")
-                        .HasColumnType("tinyint");
-
                     b.Property<bool>("IsRetired")
                         .HasColumnType("bit");
 
@@ -310,7 +307,7 @@ namespace Vetreg.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Causes");
+                    b.ToTable("Cause");
                 });
 
             modelBuilder.Entity("Vetreg.Models.City", b =>
@@ -331,6 +328,21 @@ namespace Vetreg.Migrations
                     b.HasIndex("RegionId");
 
                     b.ToTable("Cities");
+                });
+
+            modelBuilder.Entity("Vetreg.Models.Disease", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Disease");
                 });
 
             modelBuilder.Entity("Vetreg.Models.Kind", b =>
@@ -452,12 +464,17 @@ namespace Vetreg.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("DiseaseId")
+                        .HasColumnType("int");
+
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
 
                     b.HasKey("GUID");
 
                     b.HasIndex("CauseId");
+
+                    b.HasIndex("DiseaseId");
 
                     b.ToTable("Works");
                 });
@@ -533,19 +550,19 @@ namespace Vetreg.Migrations
                     b.HasOne("Vetreg.Models.Breed", "Breed")
                         .WithMany()
                         .HasForeignKey("BreedId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Vetreg.Models.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Vetreg.Models.Kind", "Kind")
                         .WithMany()
                         .HasForeignKey("KindId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Vetreg.Models.Owner", "Owner")
@@ -557,13 +574,13 @@ namespace Vetreg.Migrations
                     b.HasOne("Vetreg.Models.Region", "Region")
                         .WithMany()
                         .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Vetreg.Models.Suit", "Suit")
                         .WithMany()
                         .HasForeignKey("SuitId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -581,13 +598,13 @@ namespace Vetreg.Migrations
                     b.HasOne("Vetreg.Models.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Vetreg.Models.Region", "Region")
                         .WithMany()
                         .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Vetreg.Models.Work", null)
@@ -609,7 +626,13 @@ namespace Vetreg.Migrations
                     b.HasOne("Vetreg.Models.Cause", "Cause")
                         .WithMany()
                         .HasForeignKey("CauseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Vetreg.Models.Disease", "Disease")
+                        .WithMany()
+                        .HasForeignKey("DiseaseId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -618,13 +641,13 @@ namespace Vetreg.Migrations
                     b.HasOne("Vetreg.Models.Animal", "Animal")
                         .WithMany("WorksWithAnimal")
                         .HasForeignKey("AnimalId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Vetreg.Models.Work", "Work")
                         .WithMany("WorksWithAnimal")
                         .HasForeignKey("WorkId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

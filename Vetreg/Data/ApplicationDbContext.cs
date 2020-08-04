@@ -20,6 +20,7 @@ namespace Vetreg.Data {
         public DbSet<Vetreg.Models.Tag> Tags { get; set; }
 
         public DbSet<Vetreg.Models.Cause> Causes { get; set; }
+        public DbSet<Vetreg.Models.Disease> Diseases { get; set; }
         public DbSet<Vetreg.Models.Work> Works { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -44,5 +45,7 @@ namespace Vetreg.Data {
                 .WithMany(c => c.WorksWithAnimal)
                 .HasForeignKey(sc => sc.WorkId);
         }
+
+        public DbSet<Vetreg.Models.Disease> Disease { get; set; }
     }
 }

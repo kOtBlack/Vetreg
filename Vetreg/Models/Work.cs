@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,15 +9,23 @@ namespace Vetreg.Models {
     public class Work {
         [Key]
         public Guid GUID { get; set; }
+        
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
-        //public int RegionId { get; set; }
-        //public Region Region { get; set; }
-        //public int CityId { get; set; }
-        //public City City { get; set; }
-        public int OwnerId { get; set; }
-        public ICollection<Owner> Owners { get; set; } = new List<Owner>();
         public int CauseId { get; set; }
         public Cause Cause { get; set; }
+        public int DiseaseId { get; set; }
+        public Disease Disease { get; set; }
+        public int OwnerId { get; set; }
+        public ICollection<Owner> Owners { get; set; } = new List<Owner>();
+
+
+
+        [NotMapped]
+        public IEnumerable<string> OwnersId { get; set; } = new List<string>();
+        [NotMapped]
+        public IEnumerable<string> AnimalsId { get; set; } = new List<string>();
         public ICollection<WorkWithAnimal> WorksWithAnimal { get; set; } = new List<WorkWithAnimal>();
 
     }

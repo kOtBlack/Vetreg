@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Vetreg.Data;
 using Vetreg.Models;
+using Vetreg.ViewModels;
 
 namespace Vetreg.Controllers
 {
@@ -22,7 +23,7 @@ namespace Vetreg.Controllers
         // GET: Works
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Works.Include(c => c.Cause)/*Include(w => w.City).Include(w => w.Owner).Include(w => w.Region)*/;
+            var applicationDbContext = _context.Works.Include(c => c.Cause).Include(d => d.Disease)/*Include(w => w.City).Include(w => w.Owner).Include(w => w.Region)*/;
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -50,17 +51,19 @@ namespace Vetreg.Controllers
         // GET: Works/Create
         public IActionResult Create()
         {
-            Work work = new Work() {
-                Date = DateTime.Now,
-                Owners = _context.Owners.Select(o => o).ToList()
-
-    };
-
             //ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id");
-            ViewBag.Cause = new SelectList(_context.Causes, "Id", "Name");
-            ViewBag.Owner = new SelectList(_context.Owners.Include(o => o.Animals), "Id", "Name");
+            //ViewBag.Cause = new SelectList(_context.Causes, "Id", "Name");
+            //ViewBag.Owner = new SelectList(_context.Owners.Include(o => o.Animals), "Id", "Name");
             //ViewData["RegionId"] = new SelectList(_context.Regions, "Id", "Id");
-            return View();
+
+            var workOwner = new WorkOwnerViewModel(_context.Owners.Include(o => o.Animals).ToList())
+            {
+                //Owners = /*_context.Owners.Include(o => o.Animals).ToList(),*/ new SelectList(_context.Owners.Include(a => a.Animals), "Id", "Name"),
+                Causes = /*_context.Causes.ToList()*/new SelectList(_context.Causes, "Id", "Name"),
+                Diseases = /*_context.Causes.ToList()*/new SelectList(_context.Diseases, "Id", "Name")
+            };
+            return View(workOwner);
+
         }
 
         // POST: Works/Create
@@ -68,21 +71,34 @@ namespace Vetreg.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(/*[Bind("GUID,Date,RegionId,CityId,OwnerId,CauseId")]*/ Work work)
+        public async Task<IActionResult> Create(/*[Bind("GUID,Date,RegionId,CityId,OwnerId,CauseId")]*/ Work work/*WorkOwnerViewModel workO*/)
         {
-                //.Include(w => w.City)
-                //.Include(w => w.Owner).Include(a => a.Owner.Animals);
-            //.Include(w => w.Region)
-
             if (ModelState.IsValid)
             {
+                //Work work = new Work();
                 work.GUID = Guid.NewGuid();
+
+                foreach (var animal in work.AnimalsId) {
+                    work.WorksWithAnimal.Add(new WorkWithAnimal() { 
+                        WorkId = work.GUID,
+                        AnimalId = Guid.Parse(animal) // Attention! TryParse
+                    });
+                }
+                //Owner owner = _context.Owners.FirstOrDefault(o => o.Id == work.OwnerId);
+                //if (owner != null)
+                //    foreach (var animal in owner.Animals) {
+                //        work.WorksWithAnimal.Add(new WorkWithAnimal { 
+                //            WorkId = work.GUID,
+                //            AnimalId = animal.GUID
+                //        });
+                //    }
+
                 _context.Add(work);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             //ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", work.CityId);
-            ViewData["OwnerId"] = new SelectList(_context.Owners, "Id", "Id", work.OwnerId);
+            //ViewData["OwnerId"] = new SelectList(_context.Owners, "Id", "Id", work.OwnerId);
 
             //ViewData["RegionId"] = new SelectList(_context.Regions, "Id", "Id", work.RegionId);
             return View(work);
