@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 namespace Vetreg.Models {
     public class CheckAnimal {
         public Guid AnimalId { get; set; }
-        public bool IsCected { get; set; }
+        public bool IsChected { get; set; }
     }
 }

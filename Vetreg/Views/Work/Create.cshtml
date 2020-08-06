@@ -9,87 +9,49 @@
 
 <h4>Work</h4>
 <hr />
-<div class="row">
+
+<div class="container">
     <form asp-action="Create">
-        <div class="col-md-4">
-
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" asp-format="{0:dd.MM.yyyy}" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="CauseId" class="control-label"></label>
-                <select asp-for="CauseId" class="form-control"
-                        asp-items="Model.Causes"></select>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="DiseaseId" class="control-label"></label>
-                <select asp-for="DiseaseId" class="form-control"
-                        asp-items="Model.Diseases"></select>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Owners" class="control-label"></label>
-                <select asp-for="OwnersId" class="form-control"
-                        asp-items="Model.Owners"></select>@*multiple*@
-
-                @*@Html.ListBoxFor(m => m.Owners, (MultiSelectList)(Model.Owners), new { multiple = "true", @class = "form-controle select2-multiselect-checkbox" });*@
-                @*<select asp-for="OwnerId" class="form-control"
-            asp-items="Model.Owners"></select>*@
-            </div>
-
-
-
-                    @*<div class="form-group">
-                    @foreach (var owner in Model.Owners)
-                    {
-                        <label class="form-check-label">
-                            <input class="form-check-input" asp-for="OwnerId" /> @Html.DisplayNameFor(model => model.OwnerId)
-                        </label>
-                    }
-                </div>*@
-
-
-                    @*<div class="form-group">
-                    <label asp-for="OwnerId" class="control-label"></label>
-                    <select asp-for="OwnerId" class="form-control"
-                            asp-items="@Html.DropDownList("ownerid", Model.Owners as SelectList)"></select>
-                </div>*@
-
-                    @*<div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input type="hidden" value="@Model.animal.GUID" />
-                        <input class="form-check-input" asp-for="@animal.ChipNumber" />
-                    </label>
-                </div>*@
+        <div class="row">
+            <div class="col-md-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Date" class="control-label"></label>
+                    <input asp-for="Date" asp-format="{0:dd.MM.yyyy}" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label asp-for="Animals" class="control-label"></label>
-                        <select asp-for="AnimalsId" class="form-control"
-                                asp-items="Model.Animals"></select>@*multiple*@
 
-
-
-                    @* @Html.ListBoxFor(m => m.AnimalsId, Model.Animals, new { @Id = "lstcountry", @style = "width:200px;height:60px;" })*@
-
-
-
-                    @*@Html.ListBoxFor(m => m.Owners, (MultiSelectList)(Model.Owners), new { multiple = "true", @class = "form-controle select2-multiselect-checkbox" });*@
-                    @*<select asp-for="OwnerId" class="form-control"
-                        asp-items="Model.Owners"></select>*@
-                    </div>
+                <div class="form-group">
+                    <label asp-for="CauseId" class="control-label"></label>
+                    <select asp-for="CauseId" class="form-control"
+                            asp-items="Model.Causes"></select>
                 </div>
-            <div class="form-group">
+
+                <div class="form-group">
+                    <label asp-for="DiseaseId" class="control-label"></label>
+                    <select asp-for="DiseaseId" class="form-control"
+                            asp-items="Model.Diseases"></select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Owners" class="control-label"></label>
+                    <select asp-for="OwnersId" class="form-control"
+                            asp-items="Model.Owners"></select>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Animals" class="control-label"></label>
+                <select asp-for="AnimalsId" class="form-control" style="overflow: auto;"
+                        asp-items="Model.Animals"></select>
+                </div>
+        </div>
+        <div class="w-100"></div>
+        <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+        </div>
     </form>
 </div>
-
 
 <div>
     <a asp-action="Index">Back to List</a>

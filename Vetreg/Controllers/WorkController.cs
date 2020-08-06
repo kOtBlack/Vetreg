@@ -53,6 +53,10 @@ namespace Vetreg.Controllers
             }
 
             var work = await _context.Works
+                .Include(w => w.WorksWithAnimal)
+                .Include(w => w.Owners)
+                .Include(w=> w.Cause)
+                .Include(w => w.Disease)
                 //.Include(w => w.City)
                 //.Include(w => w.Owner)
                 //.Include(w => w.Region)
@@ -61,6 +65,8 @@ namespace Vetreg.Controllers
             {
                 return NotFound();
             }
+
+            //work.Animals.Add = _context.Animals.ToList().ForEach(work.AnimalsId.Where(w => w. == ));
 
             return View(work);
         }
@@ -73,12 +79,20 @@ namespace Vetreg.Controllers
             //ViewBag.Owner = new SelectList(_context.Owners.Include(o => o.Animals), "Id", "Name");
             //ViewData["RegionId"] = new SelectList(_context.Regions, "Id", "Id");
 
-            var workOwner = new WorkOwnerViewModel(_context.Owners.Include(o => o.Animals).ToList())
+            //var workOwner = new WorkOwnerViewModel(_context.Owners.Include(o => o.Animals).ToList())
+            //{
+            //    //Owners = /*_context.Owners.Include(o => o.Animals).ToList(),*/ new SelectList(_context.Owners.Include(a => a.Animals), "Id", "Name"),
+            //    Causes = /*_context.Causes.ToList()*/new SelectList(_context.Causes, "Id", "Name"),
+            //    Diseases = /*_context.Causes.ToList()*/new SelectList(_context.Diseases, "Id", "Name")
+            //};
+            var workOwner = new WorkOwnerViewModel(_context.Animals.Include(a => a.Owner).ToList())
             {
                 //Owners = /*_context.Owners.Include(o => o.Animals).ToList(),*/ new SelectList(_context.Owners.Include(a => a.Animals), "Id", "Name"),
                 Causes = /*_context.Causes.ToList()*/new SelectList(_context.Causes, "Id", "Name"),
                 Diseases = /*_context.Causes.ToList()*/new SelectList(_context.Diseases, "Id", "Name")
             };
+
+
             return View(workOwner);
 
         }
@@ -100,6 +114,8 @@ namespace Vetreg.Controllers
                         WorkId = work.GUID,
                         AnimalId = Guid.Parse(animal) // Attention! TryParse
                     });
+                    work.Owners.Add(_context.Owners.FirstOrDefault(o => o.Id 
+                        == _context.Animals.FirstOrDefault(a => a.GUID.ToString() == animal).OwnerId));
                 }
                 //Owner owner = _context.Owners.FirstOrDefault(o => o.Id == work.OwnerId);
                 //if (owner != null)
@@ -109,6 +125,10 @@ namespace Vetreg.Controllers
                 //            AnimalId = animal.GUID
                 //        });
                 //    }
+
+                work.Cause = _context.Causes.FirstOrDefault(c => c.Id == work.CauseId);
+                work.Disease = _context.Diseases.FirstOrDefault(c => c.Id == work.DiseaseId);
+
 
                 _context.Add(work);
                 await _context.SaveChangesAsync();

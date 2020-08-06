@@ -22,7 +22,7 @@ namespace Vetreg.Controllers
         // GET: Diseases
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Disease.ToListAsync());
+            return View(await _context.Diseases.ToListAsync());
         }
 
         // GET: Diseases/Details/5
@@ -33,7 +33,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var disease = await _context.Disease
+            var disease = await _context.Diseases
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (disease == null)
             {
@@ -73,7 +73,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var disease = await _context.Disease.FindAsync(id);
+            var disease = await _context.Diseases.FindAsync(id);
             if (disease == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace Vetreg.Controllers
                 return NotFound();
             }
 
-            var disease = await _context.Disease
+            var disease = await _context.Diseases
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (disease == null)
             {
@@ -139,15 +139,15 @@ namespace Vetreg.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var disease = await _context.Disease.FindAsync(id);
-            _context.Disease.Remove(disease);
+            var disease = await _context.Diseases.FindAsync(id);
+            _context.Diseases.Remove(disease);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DiseaseExists(int id)
         {
-            return _context.Disease.Any(e => e.Id == id);
+            return _context.Diseases.Any(e => e.Id == id);
         }
     }
 }

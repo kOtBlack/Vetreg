@@ -19,6 +19,7 @@ namespace Vetreg.Models {
         public Disease Disease { get; set; }
         public int OwnerId { get; set; }
         public ICollection<Owner> Owners { get; set; } = new List<Owner>();
+        public ICollection<Animal> Animals { get; set; } = new List<Animal>();
 
 
 

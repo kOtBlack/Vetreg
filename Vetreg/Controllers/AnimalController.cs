@@ -65,14 +65,7 @@ namespace Vetreg.Controllers
 
             ViewBag.Order = sortOrder;
 
-            return View(await _context.Animals
-                .Include(r => r.Region)
-                .Include(c => c.City)
-                .Include(k => k.Kind)
-                .Include(b => b.Breed)
-                .Include(s => s.Suit)
-                .Include(o => o.Owner)
-                .ToListAsync());
+            return View(applicationDbContext);
         }
 
         // GET: Animals/Details/5

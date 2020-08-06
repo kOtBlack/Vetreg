@@ -10,8 +10,7 @@ using Vetreg.Models;
 
 namespace Vetreg.ViewModels
 {
-    public class WorkOwnerViewModel
-    {
+    public class WorkOwnerViewModel {
         // https://docs.microsoft.com/ru-ru/aspnet/core/mvc/views/working-with-forms?view=aspnetcore-3.1
 
         [DataType(DataType.Date)]
@@ -30,14 +29,16 @@ namespace Vetreg.ViewModels
 
         public WorkOwnerViewModel() { }
 
-        public WorkOwnerViewModel(IEnumerable<Owner> owners) {
+        public WorkOwnerViewModel(IEnumerable<Owner> owners)
+        {
 
             var Individual = new SelectListGroup { Name = "Individual" };
             var Company = new SelectListGroup { Name = "Company" };
 
             Owners = owners
                 .Where(o => o.Type == TypeOwner.Individual)
-                .Select(indO => new SelectListItem {
+                .Select(indO => new SelectListItem
+                {
                     Value = indO.Id.ToString(),
                     Text = indO.Name,
                     Group = Individual
@@ -50,9 +51,10 @@ namespace Vetreg.ViewModels
                     Group = Company
                 })).ToList();
 
-                List<Animal> animals = new List<Animal>();
+            List<Animal> animals = new List<Animal>();
 
-            foreach (var owner in owners.ToList()) {
+            foreach (var owner in owners.ToList())
+            {
                 animals.AddRange(owner.Animals);
             }
 
@@ -65,84 +67,32 @@ namespace Vetreg.ViewModels
                     $"{(DateTime.MinValue + (TimeSpan)(DateTime.Now - a.Birthday)).Year - 1}" +
                     $",{(DateTime.MinValue + (TimeSpan)(DateTime.Now - a.Birthday)).Month - 1}"
             }).ToList();
-
-
-            //animals.AddRange(owners.ToList().ForEach(o => o.Animals.Select(a => a)));//.Select(o => o.Animals).ToList());
-
-
-            //Animals = Animals.Select(a =>
-            //        new SelectListItem {
-            //            Value = a.GUID.ToString(),
-            //            Text = $"{a.ChipNumber} - {(DateTime.MinValue + (TimeSpan)(DateTime.Now - a.Birthday)).Year - 1},{(DateTime.MinValue + (TimeSpan)(DateTime.Now - a.Birthday)).Month - 1}",
-
-            //        }
-            //    ));
-
-            //foreach (var owner in owners) {
-            //    if (owner.Type == TypeOwner.Individual) {
-            //        Owners.Add(new SelectListItem {
-
-            //        });
-            //    } else {
-            //        Owners.Add(new SelectListItem
-            //        {
-            //            Value = owner.Id.ToString(),
-            //            Text = owner.Name,
-            //            Group = Company
-            //        });
-            //    }
-            //}
         }
 
-//        var NorthAmericaGroup = new SelectListGroup { Name = "North America" };
-//        var EuropeGroup = new SelectListGroup { Name = "Europe" };
+        public WorkOwnerViewModel(IEnumerable<Animal> animals)
+        {
+            var Individual = new SelectListGroup { Name = "Individual" };
+            var Company = new SelectListGroup { Name = "Company" };
 
-//        Countries = new List<SelectListItem>
-//        {
-//            new SelectListItem
-//            {
-//                Value = "MEX",
-//                Text = "Mexico",
-//                Group = NorthAmericaGroup
-//    },
-//            new SelectListItem
-//            {
-//                Value = "CAN",
-//                Text = "Canada",
-//                Group = NorthAmericaGroup
-//},
-//            new SelectListItem
-//            {
-//                Value = "US",
-//                Text = "USA",
-//                Group = NorthAmericaGroup
-//            },
-//            new SelectListItem
-//            {
-//                Value = "FR",
-//                Text = "France",
-//                Group = EuropeGroup
-//            },
-//            new SelectListItem
-//            {
-//                Value = "ES",
-//                Text = "Spain",
-//                Group = EuropeGroup
-//            },
-//            new SelectListItem
-//            {
-//                Value = "DE",
-//                Text = "Germany",
-//                Group = EuropeGroup
-//            }
-
-
-    
-//    public string Country { get; set; }
-
-//        public List<SelectListItem> Countries { get; }
-
-
-
+            Animals = animals
+                .Where(a => a.Owner.Type == TypeOwner.Individual)
+                .Select(aIn => new SelectListItem {
+                    Value = aIn.GUID.ToString(),
+                    Text = $"{aIn.Owner.Name} - {aIn.ChipNumber} - " +
+                            $"{(DateTime.MinValue + (TimeSpan)(DateTime.Now - aIn.Birthday)).Year - 1}" +
+                            $",{(DateTime.MinValue + (TimeSpan)(DateTime.Now - aIn.Birthday)).Month - 1}",
+                    Group = Individual
+                })
+                .Union(animals
+                .Where(a => a.Owner.Type == TypeOwner.Company)
+                .Select(aCom => new SelectListItem
+                {
+                    Value = aCom.GUID.ToString(),
+                    Text = $"{aCom.Owner.Name} - {aCom.ChipNumber} - " +
+                            $"{(DateTime.MinValue + (TimeSpan)(DateTime.Now - aCom.Birthday)).Year - 1}" +
+                            $",{(DateTime.MinValue + (TimeSpan)(DateTime.Now - aCom.Birthday)).Month - 1}",
+                    Group = Company
+                })).ToList();
+        }
     }
 }

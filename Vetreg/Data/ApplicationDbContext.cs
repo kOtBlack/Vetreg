@@ -35,17 +35,19 @@ namespace Vetreg.Data {
             modelBuilder.Entity<WorkWithAnimal>()
                 .HasKey(t => new { t.AnimalId, t.WorkId });
 
-            modelBuilder.Entity<WorkWithAnimal>()
-                .HasOne(sc => sc.Animal)
-                .WithMany(s => s.WorksWithAnimal)
-                .HasForeignKey(sc => sc.AnimalId);
+            //modelBuilder.Entity<WorkWithAnimal>().ToTable("WorksWithAnimals");
 
-            modelBuilder.Entity<WorkWithAnimal>()
-                .HasOne(sc => sc.Work)
-                .WithMany(c => c.WorksWithAnimal)
-                .HasForeignKey(sc => sc.WorkId);
+            //modelBuilder.Entity<WorkWithAnimal>()
+            //    .HasOne(sc => sc.Animal)
+            //    .WithMany(s => s.WorksWithAnimal)
+            //    .HasForeignKey(sc => sc.AnimalId);
+
+            //modelBuilder.Entity<WorkWithAnimal>()
+            //    .HasOne(sc => sc.Work)
+            //    .WithMany(c => c.WorksWithAnimal)
+            //    .HasForeignKey(sc => sc.WorkId);
         }
 
-        public DbSet<Vetreg.Models.Disease> Disease { get; set; }
+        //public DbSet<Vetreg.Models.Disease> Disease { get; set; }
     }
 }
