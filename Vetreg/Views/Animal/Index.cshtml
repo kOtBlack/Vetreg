@@ -19,8 +19,8 @@
                 @Html.DisplayNameFor(model => model.OwnerId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Owner.Type)
-            </th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewBag.Order">@Html.DisplayNameFor(model => model.Owner.Type)</a>
+</th>
             <th>
                 @Html.DisplayNameFor(model => model.RegionId)
             </th>

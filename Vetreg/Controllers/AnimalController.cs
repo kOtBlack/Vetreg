@@ -35,8 +35,35 @@ namespace Vetreg.Controllers
         }
 
         // GET: Animals
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
+            List<Animal> applicationDbContext = null;
+            if (sortOrder == null)
+            {
+                applicationDbContext = await _context.Animals
+                            .Include(c => c.City)
+                            .Include(k => k.Kind)
+                            .Include(b => b.Breed)
+                            .Include(s => s.Suit)
+                            .Include(o => o.Owner)
+                            .OrderBy(o => o.Owner.Type)
+                            .ToListAsync();
+                sortOrder = "desc";
+            }
+            else
+            {
+                applicationDbContext = await _context.Animals
+                            .Include(c => c.City)
+                            .Include(k => k.Kind)
+                            .Include(b => b.Breed)
+                            .Include(s => s.Suit)
+                            .Include(o => o.Owner)
+                            .OrderByDescending(o => o.Owner.Type)
+                            .ToListAsync();
+                sortOrder = "";
+            }
+
+            ViewBag.Order = sortOrder;
 
             return View(await _context.Animals
                 .Include(r => r.Region)

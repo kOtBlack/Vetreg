@@ -22,17 +22,20 @@ namespace Vetreg.Controllers
         }
 
         // GET: Works
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(string sortOrder, string ownerType,
+            List<CheckOwner> checkOwners, List<CheckAnimal> checkAnimals)
         {
-            var applicationDbContext = await _context.Works.Include(c => c.Cause).Include(d => d.Disease).ToListAsync()/*Include(w => w.City).Include(w => w.Owner).Include(w => w.Region)*/;
+            List<Work> applicationDbContext = null;
             if (sortOrder == null)
             {
-                applicationDbContext.OrderBy(w => w.Cause.Id);
+                applicationDbContext = await _context.Works.Include(c => c.Cause)
+                        .Include(d => d.Disease).OrderBy(w => w.Cause.Id).ToListAsync();
                 sortOrder = "desc";
             }
             else
             {
-                applicationDbContext.OrderByDescending(w => w.Cause.Id);
+                applicationDbContext = await _context.Works.Include(c => c.Cause)
+                        .Include(d => d.Disease).OrderByDescending(w => w.Cause.Id).ToListAsync();
                 sortOrder = "";
             }
 
