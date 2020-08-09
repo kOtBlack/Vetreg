@@ -22,7 +22,6 @@ namespace Vetreg.ViewModels
         public IEnumerable<SelectListItem> Animals { get; set; }
 
 
-        public IEnumerable<CheckOwner> OwnersList { get; set; } = new List<CheckOwner>();
         public IEnumerable<CheckAnimal> AnimalsList { get; set; } = new List<CheckAnimal>();
 
         public string OwnerType { get; set; }

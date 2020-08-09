@@ -15,6 +15,13 @@
         <div class="row">
             <div class="col-md-4">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label>OwnerType</label>
+                    <a asp-action="Create" asp-route-ownerType="Individual"> Individual </a>  |
+                    <a asp-action="Create" asp-route-ownerType="Company"> Company </a>
+                </div>
+
                 <div class="form-group">
                     <label asp-for="Date" class="control-label"></label>
                     <input asp-for="Date" asp-format="{0:dd.MM.yyyy}" class="form-control" />
@@ -33,59 +40,34 @@
                             asp-items="Model.Diseases"></select>
                 </div>
 
-                <div class="form-group">
-                    <label>OwnerType</label>
 
-                    <a asp-action="Create" asp-route-work="@{Model.OwnerType = "Individual";}"> Individual  |</a>
-                    <a asp-action="Create" asp-route-work="@{Model.OwnerType = "Company";}">  Company </a>
-                </div>
-
-
-
-                <form asp-action="Create">
-                    <label @*asp-for="Owners." class="control-label"*@>Owners</label>
-                    @foreach (var owner in Model?.OwnersList)
-                    {
-                        <div class="form-group form-check">
-                            @*<label class="form-check-label">*@
-                            <label asp-for="Owners" class="control-label"></label>
-                            <input class="form-check-input" asp-for="@owner" /> @owner.OwnerName
-                            @*</label>*@
-                        </div>
-                    }
-
-                    <div class="w-100"></div>
-                    <div class="form-group">
-                        <input type="submit" value="Select" class="btn btn-primary" />
-                    </div>
-                </form>
 
                 @*<div class="form-group">
-            <label asp-for="Owners" class="control-label"></label>
-            <select asp-for="OwnersId" class="form-control"
-                    asp-items="Model.Owners"></select>
-        </div>*@
-
-
+        <label asp-for="Owners" class="control-label"></label>
+        <select asp-for="OwnersId" class="form-control"
+                asp-items="Model.Owners"></select>
+             </div>*@
 
             </div>
 
 
-
-
             <div class="col-md-4">
-
                 <div class="form-group">
                     <label @*asp-for="Owners." class="control-label"*@>Animals</label>
-                    @foreach (var animal in Model?.AnimalsList)
-                    {
-                        <div class="form-group form-check">
-                            @*<label class="form-check-label">*@
-                            <label asp-for="Animals" class="control-label"></label>
-                            <input class="form-check-input" asp-for="@animal" /> @animal.ChipNumber
-                            @*</label>*@
-                        </div>
+                    @{
+                        @if (Model.AnimalsList != null)
+                        {
+                            @foreach (var animal in Model.AnimalsList)
+                            {
+                                <div class="form-group form-check">
+                                    @*<label class="form-check-label">*@
+                                    <input class="form-check-input" asp-for="@animal.IsChected" /> @animal.ChipNumber
+                                    @*</label>*@
+                                </div>
+                            }
+                        }
                     }
+
                 </div>
 
 

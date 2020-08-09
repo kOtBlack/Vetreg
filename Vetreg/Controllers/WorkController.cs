@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,10 +11,8 @@ using Vetreg.Data;
 using Vetreg.Models;
 using Vetreg.ViewModels;
 
-namespace Vetreg.Controllers
-{
-    public class WorkController : Controller
-    {
+namespace Vetreg.Controllers {
+    public class WorkController : Controller {
         private readonly ApplicationDbContext _context;
 
         public WorkController(ApplicationDbContext context)
@@ -45,7 +44,7 @@ namespace Vetreg.Controllers
             }
 
             ViewBag.Order = sortOrder;
-            return View( applicationDbContext);
+            return View(applicationDbContext);
         }
 
 
@@ -60,7 +59,7 @@ namespace Vetreg.Controllers
             var work = await _context.Works
                 .Include(w => w.WorksWithAnimal)
                 .Include(w => w.Owners)
-                .Include(w=> w.Cause)
+                .Include(w => w.Cause)
                 .Include(w => w.Disease)
                 //.Include(w => w.City)
                 //.Include(w => w.Owner)
@@ -77,8 +76,8 @@ namespace Vetreg.Controllers
         }
 
         // GET: Works/Create
-        public IActionResult Create(WorkOwnerViewModel work, List<CheckOwner> checkOwners,
-            List<CheckAnimal> checkAnimals, string ownerType)
+        public IActionResult Create(DateTime date, int causeId, int diseaseId,
+            string ownerType/* = "Individual"*/)
         {
             //var workOwner = new WorkOwnerViewModel();
 
@@ -101,11 +100,19 @@ namespace Vetreg.Controllers
             //};
 
 
-            var workOwner = new WorkOwnerViewModel();
+            WorkOwnerViewModel workOwner = new WorkOwnerViewModel();
+            if (workOwner.Date == DateTime.MinValue) workOwner.Date = DateTime.Now;
+            else workOwner.Date = date;
+
+            if (workOwner.CauseId == 0) workOwner.Causes = new SelectList(_context.Causes, "Id", "Name");
+            else workOwner.CauseId = causeId;
 
 
+            if (workOwner.DiseaseId == 0) workOwner.Diseases = new SelectList(_context.Diseases, "Id", "Name");
+            else workOwner.DiseaseId = diseaseId;
 
-            if (work.OwnerType == "Individual")
+
+            if (ownerType == "Individual")
             {
                 //workOwner = new WorkOwnerViewModel(
                 //    AnimalsList = _context.Animals.For Where(a => checkAnimals.Contains(a.GUID) && )
@@ -121,28 +128,73 @@ namespace Vetreg.Controllers
                 //        a.GUID.Equals(checkAnimal.AnimalId));
 
                 //applicationDbContext.Where(o => o.OwnersId == checkOwners.Where(w => w.IsChected == true));
-                workOwner.Date = work.Date;
-                workOwner.CauseId = work.CauseId;
-                workOwner.DiseaseId = work.DiseaseId;
-                workOwner.OwnersList = checkOwners.Where(checkOwner => checkOwner.IsChected == true);
-                workOwner.AnimalsList = checkAnimals.Where(checkAnimal => checkAnimal.IsChected == true);
+                //workOwner.Date = date;
+                //workOwner.CauseId = causeId;
+                //workOwner.DiseaseId = diseaseId;
+
+
+                List<Animal> animals = _context.Animals
+                    .Include(o => o.Owner)
+                    //.Where(a => a.Owner.Type.ToString() == ownerType)
+                    //.OrderBy(a => a.Owner.Id)
+                    .ToList();
+
+
+                workOwner.AnimalsList = animals
+                    .Where(a => a.Owner.Type.ToString() == ownerType)
+                    .Select(a => new CheckAnimal()
+                    {
+                        AnimalId = a.GUID,
+                        ChipNumber = a.ChipNumber,
+                        Age = a.Age,
+                        OwnerId = a.Owner.Id,
+                        OwnerName = a.Owner.Name,
+                        OwnerType = a.Owner.Type.ToString(),
+                        IsChected = false
+                    }).ToList();
+
+
+                //workOwner.AnimalsList = checkAnimals.Where(checkAnimal => checkAnimal.IsChected == true);
             }
-            else if (work.OwnerType == "Company")
+            else if (ownerType == "Company")
             {
-                workOwner.Date = work.Date;
-                workOwner.CauseId = work.CauseId;
-                workOwner.DiseaseId = work.DiseaseId;
-                workOwner.OwnersList = checkOwners.Where(checkOwner => checkOwner.IsChected == true);
-                workOwner.AnimalsList = checkAnimals.Where(checkAnimal => checkAnimal.IsChected == true);
+                //workOwner.Date = date;
+                //workOwner.CauseId = causeId;
+                //workOwner.DiseaseId = diseaseId;
+
+
+                List<Animal> animals = _context.Animals
+                    .Include(o => o.Owner)
+                    //.Where(a => a.Owner.Type.ToString() == ownerType)
+                    //.OrderBy(a => a.Owner.Id)
+                    .ToList();
+
+
+                workOwner.AnimalsList = animals
+                    .Where(a => a.Owner.Type.ToString() == ownerType)
+                    .Select(a => new CheckAnimal()
+                    {
+                        AnimalId = a.GUID,
+                        ChipNumber = a.ChipNumber,
+                        Age = a.Age,
+                        OwnerId = a.Owner.Id,
+                        OwnerName = a.Owner.Name,
+                        OwnerType = a.Owner.Type.ToString(),
+                        IsChected = false
+                    }).ToList();
+
+                //workOwner.AnimalsList = checkAnimals.Where(checkAnimal => checkAnimal.IsChected == true);
             }
-            else
-            {
-                workOwner.Causes = new SelectList(_context.Causes, "Id", "Name");
-                workOwner.Diseases = new SelectList(_context.Diseases, "Id", "Name");
-                workOwner.OwnersList = checkOwners.Where(checkOwner => checkOwner.IsChected == true);
-                workOwner.AnimalsList = checkAnimals.Where(checkAnimal => checkAnimal.IsChected == true);
-                ownerType = "Individual";
-            }
+            //else
+            //{
+
+            //    workOwner.Causes = new SelectList(_context.Causes, "Id", "Name");
+            //    workOwner.Diseases = new SelectList(_context.Diseases, "Id", "Name");
+
+            //    //workOwner.OwnersList = checkOwners.Where(checkOwner => checkOwner.IsChected == true);
+            //    //workOwner.AnimalsList = checkAnimals.Where(checkAnimal => checkAnimal.IsChected == true);
+            //    work.OwnerType = "Individual";
+            //}
 
             //    applicationDbContext = await _context.Works
             //.Include(c => c.Cause)
@@ -154,9 +206,6 @@ namespace Vetreg.Controllers
 
             //    applicationDbContext.Where(o => o.OwnersId == checkOwners.Where(w => w.IsChected == true));
             //    applicationDbContext.Where(a => a.AnimalsId == checkAnimals.Where(n => n.IsChected == true));
-
-            ViewBag.OwnerType = ownerType;
-
 
             return View(workOwner);
 
@@ -174,12 +223,14 @@ namespace Vetreg.Controllers
                 //Work work = new Work();
                 work.GUID = Guid.NewGuid();
 
-                foreach (var animal in work.AnimalsId) {
-                    work.WorksWithAnimal.Add(new WorkWithAnimal() { 
+                foreach (var animal in work.AnimalsId)
+                {
+                    work.WorksWithAnimal.Add(new WorkWithAnimal()
+                    {
                         WorkId = work.GUID,
                         AnimalId = Guid.Parse(animal) // Attention! TryParse
                     });
-                    work.Owners.Add(_context.Owners.FirstOrDefault(o => o.Id 
+                    work.Owners.Add(_context.Owners.FirstOrDefault(o => o.Id
                         == _context.Animals.FirstOrDefault(a => a.GUID.ToString() == animal).OwnerId));
                 }
                 //Owner owner = _context.Owners.FirstOrDefault(o => o.Id == work.OwnerId);

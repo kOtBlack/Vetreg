@@ -9,7 +9,8 @@ namespace Vetreg.ViewModels {
         public DateTime Date { get; set; }
         public int CauseId { get; set; }
         public int DiseaseId { get; set; }
-        public string TypeOwner { get; set; }
-        public IEnumerable<CheckOwner> OwnersList { get; set; } = new List<CheckOwner>();
+        public string OwnerType { get; set; }
+
+        public IEnumerable<CheckAnimal> AnimalsList { get; set; } = new List<CheckAnimal>();
     }
 }
