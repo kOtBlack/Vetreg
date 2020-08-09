@@ -43,7 +43,7 @@
                 @Html.DisplayNameFor(model => model.ChipNumber)
             </th>
             <th>
-                Age
+                @Html.DisplayNameFor(model => model.Age)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Gender)
@@ -96,17 +96,18 @@
                     @String.Format("{0:f}", (float)((DateTime.Now - item.Birthday).TotalDays / 365.242199))
                 </td>
             }*@
-            @{
-                DateTime age = DateTime.MinValue + (TimeSpan)(DateTime.Now - item.Birthday);
+           @* @{*@
+                @*DateTime age = DateTime.MinValue + (TimeSpan)(DateTime.Now - item.Birthday);*@
                 @*string a = ($"{age.Year - 1},{age.Month - 1}");
                 float.TryParse(a, out float fAge);
                         <td>
                             @fAge.ToString()
                         </td>*@
-                <td >
-                    @($"{age.Year - 1}.{age.Month - 1}")
-                </td >
-                }
+        <td>
+            @*@($"{age.Year - 1}.{age.Month - 1}")*@
+            @Html.DisplayFor(modelItem => item.Age)
+        </td>
+                @*}*@
                 @if (item.Gender == 0)
                 {
                     <td>

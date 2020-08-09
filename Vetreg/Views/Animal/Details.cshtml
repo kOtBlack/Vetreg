@@ -62,14 +62,15 @@
             @Html.DisplayNameFor(model => model.Birthday)
         </dt>
         <dd class="col-sm-10">
-            @{
-                @Html.DisplayFor(model => model.Birthday);
+            @Html.DisplayFor(model => model.Age);
+            @*@{*@
+            @*@Html.DisplayFor(model => model.Birthday);*@
 
-                DateTime age = DateTime.MinValue + (TimeSpan)(DateTime.Now - Model.Birthday);
-                @: Age: @(age.Year - 1) 
-                @: y @(age.Month - 1)
-                @: m.
-            }
+            @*DateTime age = DateTime.MinValue + (TimeSpan)(DateTime.Now - Model.Birthday);
+        @: Age: @(age.Year - 1)
+        @: y @(age.Month - 1)
+        @: m.*@
+            @*}*@
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Gender)

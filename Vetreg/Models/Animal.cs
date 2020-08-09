@@ -34,13 +34,39 @@ namespace Vetreg.Models {
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM.yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime Birthday { get; set; }
+        public DateTime Birthday { get; set; } 
+        //{
+        //    get {
+        //        DateTime dAge = DateTime.MinValue + (TimeSpan)(DateTime.Now - birthday);
+        //        float.TryParse($"{dAge.Year - 1},{dAge.Month - 1}", out float fAge);
+        //        this.Age = fAge;
+        //        return birthday;
+        //    }
+        //    set {
+        //        birthday = value;
+        //        DateTime dAge = DateTime.MinValue + (TimeSpan)(DateTime.Now - birthday);
+        //        float.TryParse($"{dAge.Year - 1},{dAge.Month - 1}", out float fAge);
+        //        this.Age = fAge;
+        //    }
+        //}
+
+        private float age;
+
         [NotMapped]
+        public float Age {
+            get {
+                DateTime dAge = DateTime.MinValue + (TimeSpan)(DateTime.Now - Birthday);
+                float.TryParse($"{dAge.Year - 1},{dAge.Month - 1}", out float fAge);
+                return this.Age = fAge;
+            }
+
+            set { age = value; }
+        }
+
         public byte Gender { get; set; } = 1;
         public string Remark { get; set; }
         public bool IsRetired { get; set; } = false;
 
-        public Animal() {
-        }
+        public Animal( ) { }
     }
 }

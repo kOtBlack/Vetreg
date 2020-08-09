@@ -178,6 +178,7 @@ namespace Vetreg.Controllers
                     animal.CityId = _context.Owners.FirstOrDefault(o => o.Id == animal.OwnerId).CityId;
                     animal.RegionId = _context.Cities.FirstOrDefault(c => c.Id == animal.CityId).RegionId;
 
+
                     if (animal.Sticker == Sticker.Tag)
                         _context.Add(new Tag()
                         {
