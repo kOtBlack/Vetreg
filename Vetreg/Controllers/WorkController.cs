@@ -22,20 +22,25 @@ namespace Vetreg.Controllers
         }
 
         // GET: Works
-        public async Task<IActionResult> Index(string sortOrder, string ownerType,
-            List<CheckOwner> checkOwners, List<CheckAnimal> checkAnimals)
+        public async Task<IActionResult> Index(string sortOrder)
         {
             List<Work> applicationDbContext = null;
             if (sortOrder == null)
             {
-                applicationDbContext = await _context.Works.Include(c => c.Cause)
-                        .Include(d => d.Disease).OrderBy(w => w.Cause.Id).ToListAsync();
+                applicationDbContext = await _context.Works
+                    .Include(c => c.Cause)
+                    .Include(d => d.Disease)
+
+                    .OrderBy(w => w.Cause.Id).ToListAsync();
                 sortOrder = "desc";
             }
             else
             {
-                applicationDbContext = await _context.Works.Include(c => c.Cause)
-                        .Include(d => d.Disease).OrderByDescending(w => w.Cause.Id).ToListAsync();
+                applicationDbContext = await _context.Works
+                        .Include(c => c.Cause)
+                        .Include(d => d.Disease)
+
+                        .OrderByDescending(w => w.Cause.Id).ToListAsync();
                 sortOrder = "";
             }
 
@@ -72,25 +77,85 @@ namespace Vetreg.Controllers
         }
 
         // GET: Works/Create
-        public IActionResult Create()
+        public IActionResult Create(WorkOwnerViewModel work, List<CheckOwner> checkOwners,
+            List<CheckAnimal> checkAnimals, string ownerType)
         {
-            //ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id");
-            //ViewBag.Cause = new SelectList(_context.Causes, "Id", "Name");
-            //ViewBag.Owner = new SelectList(_context.Owners.Include(o => o.Animals), "Id", "Name");
-            //ViewData["RegionId"] = new SelectList(_context.Regions, "Id", "Id");
+            //var workOwner = new WorkOwnerViewModel();
 
-            //var workOwner = new WorkOwnerViewModel(_context.Owners.Include(o => o.Animals).ToList())
+            ////ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id");
+            ////ViewBag.Cause = new SelectList(_context.Causes, "Id", "Name");
+            ////ViewBag.Owner = new SelectList(_context.Owners.Include(o => o.Animals), "Id", "Name");
+            ////ViewData["RegionId"] = new SelectList(_context.Regions, "Id", "Id");
+
+            ////var workOwner = new WorkOwnerViewModel(_context.Owners.Include(o => o.Animals).ToList())
+            ////{
+            ////    //Owners = /*_context.Owners.Include(o => o.Animals).ToList(),*/ new SelectList(_context.Owners.Include(a => a.Animals), "Id", "Name"),
+            ////    Causes = /*_context.Causes.ToList()*/new SelectList(_context.Causes, "Id", "Name"),
+            ////    Diseases = /*_context.Causes.ToList()*/new SelectList(_context.Diseases, "Id", "Name")
+            ////};
+            //var workOwner = new WorkOwnerViewModel(_context.Animals.Include(a => a.Owner).ToList())
             //{
             //    //Owners = /*_context.Owners.Include(o => o.Animals).ToList(),*/ new SelectList(_context.Owners.Include(a => a.Animals), "Id", "Name"),
             //    Causes = /*_context.Causes.ToList()*/new SelectList(_context.Causes, "Id", "Name"),
             //    Diseases = /*_context.Causes.ToList()*/new SelectList(_context.Diseases, "Id", "Name")
             //};
-            var workOwner = new WorkOwnerViewModel(_context.Animals.Include(a => a.Owner).ToList())
+
+
+            var workOwner = new WorkOwnerViewModel();
+
+
+
+            if (work.OwnerType == "Individual")
             {
-                //Owners = /*_context.Owners.Include(o => o.Animals).ToList(),*/ new SelectList(_context.Owners.Include(a => a.Animals), "Id", "Name"),
-                Causes = /*_context.Causes.ToList()*/new SelectList(_context.Causes, "Id", "Name"),
-                Diseases = /*_context.Causes.ToList()*/new SelectList(_context.Diseases, "Id", "Name")
-            };
+                //workOwner = new WorkOwnerViewModel(
+                //    AnimalsList = _context.Animals.For Where(a => checkAnimals.Contains(a.GUID) && )
+                //    .Animals. Include(a => a.Owner).ToList())
+                //    .Include(c => c.Cause)
+                //    .Include(d => d.Disease)
+                //    //.Include(o => o.Owners.Where(o => o.Type.ToString() == ownerType))
+                //    .Include(o => o.Owners)
+                //    .Include(a => a.Animals)
+                //    .OrderBy(w => w.Cause.Id).ToListAsync());
+                //sortOrder = "Company";
+                //workOwner.AnimalsList = _context.Animals.Where(a => checkAnimals.ForEach(checkAnimal =>
+                //        a.GUID.Equals(checkAnimal.AnimalId));
+
+                //applicationDbContext.Where(o => o.OwnersId == checkOwners.Where(w => w.IsChected == true));
+                workOwner.Date = work.Date;
+                workOwner.CauseId = work.CauseId;
+                workOwner.DiseaseId = work.DiseaseId;
+                workOwner.OwnersList = checkOwners.Where(checkOwner => checkOwner.IsChected == true);
+                workOwner.AnimalsList = checkAnimals.Where(checkAnimal => checkAnimal.IsChected == true);
+            }
+            else if (work.OwnerType == "Company")
+            {
+                workOwner.Date = work.Date;
+                workOwner.CauseId = work.CauseId;
+                workOwner.DiseaseId = work.DiseaseId;
+                workOwner.OwnersList = checkOwners.Where(checkOwner => checkOwner.IsChected == true);
+                workOwner.AnimalsList = checkAnimals.Where(checkAnimal => checkAnimal.IsChected == true);
+            }
+            else
+            {
+                workOwner.Causes = new SelectList(_context.Causes, "Id", "Name");
+                workOwner.Diseases = new SelectList(_context.Diseases, "Id", "Name");
+                workOwner.OwnersList = checkOwners.Where(checkOwner => checkOwner.IsChected == true);
+                workOwner.AnimalsList = checkAnimals.Where(checkAnimal => checkAnimal.IsChected == true);
+                ownerType = "Individual";
+            }
+
+            //    applicationDbContext = await _context.Works
+            //.Include(c => c.Cause)
+            //.Include(d => d.Disease)
+            ////.Include(o => o.Owners.Where(o => o.Type.ToString() == ownerType))
+            //.Include(a => a.Owners)
+            //.OrderByDescending(w => w.Cause.Id).ToListAsync();
+            //    sortOrder = "Individual";
+
+            //    applicationDbContext.Where(o => o.OwnersId == checkOwners.Where(w => w.IsChected == true));
+            //    applicationDbContext.Where(a => a.AnimalsId == checkAnimals.Where(n => n.IsChected == true));
+
+            ViewBag.OwnerType = ownerType;
 
 
             return View(workOwner);

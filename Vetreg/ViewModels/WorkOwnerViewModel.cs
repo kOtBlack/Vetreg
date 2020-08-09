@@ -22,10 +22,17 @@ namespace Vetreg.ViewModels
         public IEnumerable<SelectListItem> Animals { get; set; }
 
 
+        public IEnumerable<CheckOwner> OwnersList { get; set; } = new List<CheckOwner>();
+        public IEnumerable<CheckAnimal> AnimalsList { get; set; } = new List<CheckAnimal>();
+
+        public string OwnerType { get; set; }
+
         public IEnumerable<string> AnimalsId { get; set; } = new List<string>();
         public IEnumerable<string> OwnersId { get; set; } = new List<string>();
         public int CauseId { get; set; }
         public int DiseaseId { get; set; }
+
+
 
         public WorkOwnerViewModel() { }
 
@@ -63,9 +70,7 @@ namespace Vetreg.ViewModels
             Animals = animals.Select(a => new SelectListItem
             {
                 Value = a.GUID.ToString(),
-                Text = $"{a.ChipNumber} - " +
-                    $"{(DateTime.MinValue + (TimeSpan)(DateTime.Now - a.Birthday)).Year - 1}" +
-                    $",{(DateTime.MinValue + (TimeSpan)(DateTime.Now - a.Birthday)).Month - 1}"
+                Text = $"{a.ChipNumber} - { a.Age }" 
             }).ToList();
         }
 
@@ -78,9 +83,7 @@ namespace Vetreg.ViewModels
                 .Where(a => a.Owner.Type == TypeOwner.Individual)
                 .Select(aIn => new SelectListItem {
                     Value = aIn.GUID.ToString(),
-                    Text = $"{aIn.Owner.Name} - {aIn.ChipNumber} - " +
-                            $"{(DateTime.MinValue + (TimeSpan)(DateTime.Now - aIn.Birthday)).Year - 1}" +
-                            $",{(DateTime.MinValue + (TimeSpan)(DateTime.Now - aIn.Birthday)).Month - 1}",
+                    Text = $"{aIn.Owner.Name} - {aIn.ChipNumber} - { aIn.Age }",
                     Group = Individual
                 })
                 .Union(animals
@@ -88,11 +91,14 @@ namespace Vetreg.ViewModels
                 .Select(aCom => new SelectListItem
                 {
                     Value = aCom.GUID.ToString(),
-                    Text = $"{aCom.Owner.Name} - {aCom.ChipNumber} - " +
-                            $"{(DateTime.MinValue + (TimeSpan)(DateTime.Now - aCom.Birthday)).Year - 1}" +
-                            $",{(DateTime.MinValue + (TimeSpan)(DateTime.Now - aCom.Birthday)).Month - 1}",
+                    Text = $"{aCom.Owner.Name} - {aCom.ChipNumber} - { aCom.Age }",
                     Group = Company
                 })).ToList();
         }
+
+
+
+
+
     }
 }

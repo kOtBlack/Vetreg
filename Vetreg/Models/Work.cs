@@ -27,6 +27,12 @@ namespace Vetreg.Models {
         public IEnumerable<string> OwnersId { get; set; } = new List<string>();
         [NotMapped]
         public IEnumerable<string> AnimalsId { get; set; } = new List<string>();
+
+        [NotMapped]
+        public IEnumerable<CheckOwner> OwnersList { get; set; } = new List<CheckOwner>();
+        [NotMapped]
+        public IEnumerable<CheckAnimal> AnimalsList { get; set; } = new List<CheckAnimal>();
+
         public ICollection<WorkWithAnimal> WorksWithAnimal { get; set; } = new List<WorkWithAnimal>();
 
     }
