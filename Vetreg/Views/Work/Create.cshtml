@@ -54,60 +54,67 @@
                     <select asp-for="OwnersId" class="form-control"
                             asp-items="Model.Owners"></select>
                          </div>*@
+                
+                <div class="form-group">
+                    <select multiple="multiple" id="list" class="multi-select"
+                            asp-for="@Model.SelectedAnimals"
+                            asp-items="@Model.Animals"
+                            ></select>
+                </div>
 
-            <div class="form-group">
-                <label @*asp-for="Owners." class="control-label"*@>Animals</label>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                Check
-                            </th>
-                            <th>
-                                OwnerName
-                            </th>
-
-                            <th>
-                                ChipNumber
-                            </th>
-                            <th>
-                                Age
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.Animals != null)
-                        {
-                            @for (int i = 0; i < Model.Animals.Count(); i++)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.CheckBox("Model.Animals[" + i + "].IsChected", false, Model.Animals[i].IsChected)
-                                    </td>
-                                    <td>
-                                        @Model.Animals[i].OwnerName
-                                    </td>
-                                    <td>
-                                        @Model.Animals[i].ChipNumber
-                                    </td>
-                                    <td>
-                                        @Model.Animals[i].Age
-                                    </td>
-                                    <td>
-                                        @Html.Hidden("Model.Animals[" + i + "].AnimalId", Model.Animals[i].AnimalId)
-                                    </td>
-                                    <td>
-                                        @Html.Hidden("Model.Animals[" + i + "].OwnerId", Model.Animals[i].OwnerId)
-                                    </td>
-                                </tr>
-                            }
-                        }
-
-                    </tbody>
-                </table>
-
-            </div>
+@*                 <div class="form-group"> *@
+@*                 <label $1$asp-for="Owners." class="control-label"#1#>Animals</label> *@
+@*                 <table class="table"> *@
+@*                     <thead> *@
+@*                         <tr> *@
+@*                             <th> *@
+@*                                 Check *@
+@*                             </th> *@
+@*                             <th> *@
+@*                                 OwnerName *@
+@*                             </th> *@
+@* *@
+@*                             <th> *@
+@*                                 ChipNumber *@
+@*                             </th> *@
+@*                             <th> *@
+@*                                 Age *@
+@*                             </th> *@
+@*                             <th></th> *@
+@*                         </tr> *@
+@*                     </thead> *@
+@*                     <tbody> *@
+@*                         @if (Model.Animals != null) *@
+@*                         { *@
+@*                             @for (int i = 0; i < Model.Animals.Count(); i++) *@
+@*                             { *@
+@*                                 <tr> *@
+@*                                     <td> *@
+@*                                         @Html.CheckBox("Model.Animals[" + i + "].IsChected", false, Model.Animals[i].IsChected) *@
+@*                                     </td> *@
+@*                                     <td> *@
+@*                                         @Model.Animals[i].OwnerName *@
+@*                                     </td> *@
+@*                                     <td> *@
+@*                                         @Model.Animals[i].ChipNumber *@
+@*                                     </td> *@
+@*                                     <td> *@
+@*                                         @Model.Animals[i].Age *@
+@*                                     </td> *@
+@*                                     <td> *@
+@*                                         @Html.Hidden("Model.Animals[" + i + "].AnimalId", Model.Animals[i].AnimalId) *@
+@*                                     </td> *@
+@*                                     <td> *@
+@*                                         @Html.Hidden("Model.Animals[" + i + "].OwnerId", Model.Animals[i].OwnerId) *@
+@*                                     </td> *@
+@*                                 </tr> *@
+@*                             } *@
+@*                         } *@
+@* *@
+@*                     </tbody> *@
+@*                 </table> *@
+@* *@
+@*             </div> *@
 
 
 

@@ -35,6 +35,14 @@ namespace Vetreg.Data {
             modelBuilder.Entity<WorkWithAnimal>()
                 .HasKey(t => new { t.AnimalId, t.WorkId });
 
+            modelBuilder.Entity<Region>().HasData(new Region { Id = 1, Name = "Хабаровский край", Cities = null});
+            modelBuilder.Entity<City>().HasData(new City { Id = 1, Name = "Хабаровск", RegionId = 1});
+            modelBuilder.Entity<Cause>().HasData(new Cause { Id = 1, Name = "Чипирование"});
+            modelBuilder.Entity<Kind>().HasData(new Kind { Id = 1, Name = "Какой-то тип"});
+            modelBuilder.Entity<Breed>().HasData(new Breed {Id = 1, Name = "Бреед"});
+            modelBuilder.Entity<Suit>().HasData(new Suit { Id = 1, Name = "СУИТ"});
+            modelBuilder.Entity<Disease>().HasData(new Disease {Id = 1, Name = "Дисиас"});
+
             //modelBuilder.Entity<WorkWithAnimal>().ToTable("WorksWithAnimals");
 
             //modelBuilder.Entity<WorkWithAnimal>()

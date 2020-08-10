@@ -294,6 +294,13 @@ namespace Vetreg.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Breeds");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Бреед"
+                        });
                 });
 
             modelBuilder.Entity("Vetreg.Models.Cause", b =>
@@ -309,6 +316,13 @@ namespace Vetreg.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Causes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Чипирование"
+                        });
                 });
 
             modelBuilder.Entity("Vetreg.Models.City", b =>
@@ -329,6 +343,14 @@ namespace Vetreg.Migrations
                     b.HasIndex("RegionId");
 
                     b.ToTable("Cities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Хабаровск",
+                            RegionId = 1
+                        });
                 });
 
             modelBuilder.Entity("Vetreg.Models.Disease", b =>
@@ -344,6 +366,13 @@ namespace Vetreg.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Diseases");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Дисиас"
+                        });
                 });
 
             modelBuilder.Entity("Vetreg.Models.Kind", b =>
@@ -359,6 +388,13 @@ namespace Vetreg.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Kinds");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Какой-то тип"
+                        });
                 });
 
             modelBuilder.Entity("Vetreg.Models.Owner", b =>
@@ -411,6 +447,13 @@ namespace Vetreg.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Regions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Хабаровский край"
+                        });
                 });
 
             modelBuilder.Entity("Vetreg.Models.Suit", b =>
@@ -426,6 +469,13 @@ namespace Vetreg.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Suits");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "СУИТ"
+                        });
                 });
 
             modelBuilder.Entity("Vetreg.Models.Tag", b =>

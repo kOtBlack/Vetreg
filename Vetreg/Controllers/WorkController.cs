@@ -139,18 +139,18 @@ namespace Vetreg.Controllers {
                     //.OrderBy(a => a.Owner.Id)
                     .ToList();
 
-
-                workOwner.Animals = new List<CheckAnimal>(animals
-                    .Where(a => a.Owner.Type.ToString() == ownerType)
-                    .Select(a => new CheckAnimal()
-                    {
-                        AnimalId = a.GUID,
-                        ChipNumber = a.ChipNumber,
-                        Age = a.Age,
-                        OwnerId = a.Owner.Id,
-                        OwnerName = a.Owner.Name,
-                        IsChected = false
-                    }).ToList().OrderBy(a => a.OwnerName));
+                workOwner.Animals = animals.Select(d => new SelectListItem{Value = d.GUID.ToString(), Text = d.ChipNumber.ToString()}).ToList();
+                //  = new List<CheckAnimal>(animals
+                //     .Where(a => a.Owner.Type.ToString() == ownerType)
+                //     .Select(a => new CheckAnimal()
+                //     {
+                //         AnimalId = a.GUID,
+                //         ChipNumber = a.ChipNumber,
+                //         Age = a.Age,
+                //         OwnerId = a.Owner.Id,
+                //         OwnerName = a.Owner.Name,
+                //         IsChected = false
+                //     }).ToList().OrderBy(a => a.OwnerName));
 
                 var t = workOwner.Animals;
                 //workOwner.AnimalsList = checkAnimals.Where(checkAnimal => checkAnimal.IsChected == true);
@@ -187,22 +187,23 @@ namespace Vetreg.Controllers {
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(/*[Bind("Date,CauseId,DiseaseId,Animals")]*/ Work work/*WorkOwnerViewModel workO*/)
+        public async Task<IActionResult> Create(/*[Bind("Date,CauseId,DiseaseId,Animals")]*/ WorkOwnerViewModel workOwner/*WorkOwnerViewModel workO*/)
         {
             if (ModelState.IsValid)
             {
+                Work work = new Work();
                 work.GUID = Guid.NewGuid();
+                work.WorksWithAnimal = new List<WorkWithAnimal>();
 
-                foreach (var animal in work.Animals)
+                foreach (var animal in workOwner.SelectedAnimals)
                 {
-                    if (animal.IsChected)
+                    Guid.TryParse(animal, out Guid animalId);
+                    var workAnimal = new WorkWithAnimal()
                     {
-                        work.WorksWithAnimal.Add(new WorkWithAnimal()
-                        {
-                            WorkId = work.GUID,
-                            AnimalId = animal.AnimalId // Attention! TryParse
-                        }); 
-                    }
+                        WorkId = work.GUID,
+                        AnimalId = animalId
+                    };
+                    work.WorksWithAnimal.Add(workAnimal);
                     //work.Owners.Add(_context.Owners.FirstOrDefault(o => o.Id
                     //    == _context.Animals.FirstOrDefault(a => a.GUID.ToString() == animal).OwnerId));
                 }
@@ -215,10 +216,11 @@ namespace Vetreg.Controllers {
                 //        });
                 //    }
 
-                work.Cause = _context.Causes.FirstOrDefault(c => c.Id == work.CauseId);
-                work.Disease = _context.Diseases.FirstOrDefault(c => c.Id == work.DiseaseId);
+                work.Cause = _context.Causes.FirstOrDefault(c => c.Id == workOwner.CauseId);
+                work.Disease = _context.Diseases.FirstOrDefault(c => c.Id == workOwner.DiseaseId);
 
-
+                //_context.Entry(work.Cause).State = EntityState.Unchanged;
+               //_context.Entry(work.Disease).State = EntityState.Unchanged;
                 _context.Add(work);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -227,7 +229,7 @@ namespace Vetreg.Controllers {
             //ViewData["OwnerId"] = new SelectList(_context.Owners, "Id", "Id", work.OwnerId);
 
             //ViewData["RegionId"] = new SelectList(_context.Regions, "Id", "Id", work.RegionId);
-            return View(work);
+            return View(workOwner);
         }
 
         // GET: Works/Edit/5
