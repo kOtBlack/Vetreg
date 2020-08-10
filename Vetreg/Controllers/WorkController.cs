@@ -58,7 +58,7 @@ namespace Vetreg.Controllers {
 
             var work = await _context.Works
                 .Include(w => w.WorksWithAnimal)
-                .Include(w => w.Owners)
+                //.Include(w => w.Owners)
                 .Include(w => w.Cause)
                 .Include(w => w.Disease)
                 //.Include(w => w.City)
@@ -112,7 +112,7 @@ namespace Vetreg.Controllers {
             else workOwner.DiseaseId = diseaseId;
 
 
-            if (ownerType == "Individual")
+            if (ownerType != null)
             {
                 //workOwner = new WorkOwnerViewModel(
                 //    AnimalsList = _context.Animals.For Where(a => checkAnimals.Contains(a.GUID) && )
@@ -140,7 +140,7 @@ namespace Vetreg.Controllers {
                     .ToList();
 
 
-                workOwner.AnimalsList = animals
+                workOwner.Animals = new List<CheckAnimal>(animals
                     .Where(a => a.Owner.Type.ToString() == ownerType)
                     .Select(a => new CheckAnimal()
                     {
@@ -149,42 +149,13 @@ namespace Vetreg.Controllers {
                         Age = a.Age,
                         OwnerId = a.Owner.Id,
                         OwnerName = a.Owner.Name,
-                        OwnerType = a.Owner.Type.ToString(),
                         IsChected = false
-                    }).ToList();
+                    }).ToList().OrderBy(a => a.OwnerName));
 
-
+                var t = workOwner.Animals;
                 //workOwner.AnimalsList = checkAnimals.Where(checkAnimal => checkAnimal.IsChected == true);
             }
-            else if (ownerType == "Company")
-            {
-                //workOwner.Date = date;
-                //workOwner.CauseId = causeId;
-                //workOwner.DiseaseId = diseaseId;
-
-
-                List<Animal> animals = _context.Animals
-                    .Include(o => o.Owner)
-                    //.Where(a => a.Owner.Type.ToString() == ownerType)
-                    //.OrderBy(a => a.Owner.Id)
-                    .ToList();
-
-
-                workOwner.AnimalsList = animals
-                    .Where(a => a.Owner.Type.ToString() == ownerType)
-                    .Select(a => new CheckAnimal()
-                    {
-                        AnimalId = a.GUID,
-                        ChipNumber = a.ChipNumber,
-                        Age = a.Age,
-                        OwnerId = a.Owner.Id,
-                        OwnerName = a.Owner.Name,
-                        OwnerType = a.Owner.Type.ToString(),
-                        IsChected = false
-                    }).ToList();
-
-                //workOwner.AnimalsList = checkAnimals.Where(checkAnimal => checkAnimal.IsChected == true);
-            }
+            
             //else
             //{
 
@@ -216,22 +187,24 @@ namespace Vetreg.Controllers {
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(/*[Bind("GUID,Date,RegionId,CityId,OwnerId,CauseId")]*/ Work work/*WorkOwnerViewModel workO*/)
+        public async Task<IActionResult> Create(/*[Bind("Date,CauseId,DiseaseId,Animals")]*/ Work work/*WorkOwnerViewModel workO*/)
         {
             if (ModelState.IsValid)
             {
-                //Work work = new Work();
                 work.GUID = Guid.NewGuid();
 
-                foreach (var animal in work.AnimalsId)
+                foreach (var animal in work.Animals)
                 {
-                    work.WorksWithAnimal.Add(new WorkWithAnimal()
+                    if (animal.IsChected)
                     {
-                        WorkId = work.GUID,
-                        AnimalId = Guid.Parse(animal) // Attention! TryParse
-                    });
-                    work.Owners.Add(_context.Owners.FirstOrDefault(o => o.Id
-                        == _context.Animals.FirstOrDefault(a => a.GUID.ToString() == animal).OwnerId));
+                        work.WorksWithAnimal.Add(new WorkWithAnimal()
+                        {
+                            WorkId = work.GUID,
+                            AnimalId = animal.AnimalId // Attention! TryParse
+                        }); 
+                    }
+                    //work.Owners.Add(_context.Owners.FirstOrDefault(o => o.Id
+                    //    == _context.Animals.FirstOrDefault(a => a.GUID.ToString() == animal).OwnerId));
                 }
                 //Owner owner = _context.Owners.FirstOrDefault(o => o.Id == work.OwnerId);
                 //if (owner != null)
@@ -271,7 +244,7 @@ namespace Vetreg.Controllers {
                 return NotFound();
             }
             //ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", work.CityId);
-            ViewData["OwnerId"] = new SelectList(_context.Owners, "Id", "Id", work.OwnerId);
+            //ViewData["OwnerId"] = new SelectList(_context.Owners, "Id", "Id", work.OwnerId);
             //ViewData["RegionId"] = new SelectList(_context.Regions, "Id", "Id", work.RegionId);
             return View(work);
         }
@@ -281,7 +254,7 @@ namespace Vetreg.Controllers {
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("GUID,Date,RegionId,CityId,OwnerId,CauseId")] Work work)
+        public async Task<IActionResult> Edit(Guid id, /* [Bind("GUID,Date,RegionId,CityId,OwnerId,CauseId")] */Work work)
         {
             if (id != work.GUID)
             {
@@ -309,7 +282,7 @@ namespace Vetreg.Controllers {
                 return RedirectToAction(nameof(Index));
             }
             //ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", work.CityId);
-            ViewData["OwnerId"] = new SelectList(_context.Owners, "Id", "Id", work.OwnerId);
+            //ViewData["OwnerId"] = new SelectList(_context.Owners, "Id", "Id", work.OwnerId);
             //ViewData["RegionId"] = new SelectList(_context.Regions, "Id", "Id", work.RegionId);
             return View(work);
         }

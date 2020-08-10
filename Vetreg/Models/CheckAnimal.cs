@@ -10,7 +10,6 @@ namespace Vetreg.Models {
         public float Age { get; set; }
         public int OwnerId { get; set; }
         public string OwnerName { get; set; }
-        public string OwnerType { get; set; }
         public bool IsChected { get; set; }
     }
 }

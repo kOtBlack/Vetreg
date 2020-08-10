@@ -18,16 +18,15 @@ namespace Vetreg.ViewModels
         public DateTime Date { get; set; }
         public IEnumerable<SelectListItem> Causes { get; set; }
         public IEnumerable<SelectListItem> Diseases { get; set; }
-        public IEnumerable<SelectListItem> Owners { get; set; }
-        public IEnumerable<SelectListItem> Animals { get; set; }
+        //public IEnumerable<SelectListItem> Owners { get; set; }
+        //public IEnumerable<SelectListItem> Animals { get; set; }
 
-
-        public IEnumerable<CheckAnimal> AnimalsList { get; set; } = new List<CheckAnimal>();
+        public List<CheckAnimal> Animals { get; set; } = new List<CheckAnimal>();
 
         public string OwnerType { get; set; }
 
-        public IEnumerable<string> AnimalsId { get; set; } = new List<string>();
-        public IEnumerable<string> OwnersId { get; set; } = new List<string>();
+        //public IEnumerable<string> AnimalsId { get; set; } = new List<string>();
+        //public IEnumerable<string> OwnersId { get; set; } = new List<string>();
         public int CauseId { get; set; }
         public int DiseaseId { get; set; }
 
@@ -35,65 +34,65 @@ namespace Vetreg.ViewModels
 
         public WorkOwnerViewModel() { }
 
-        public WorkOwnerViewModel(IEnumerable<Owner> owners)
-        {
+        //public WorkOwnerViewModel(IEnumerable<Owner> owners)
+        //{
 
-            var Individual = new SelectListGroup { Name = "Individual" };
-            var Company = new SelectListGroup { Name = "Company" };
+        //    var Individual = new SelectListGroup { Name = "Individual" };
+        //    var Company = new SelectListGroup { Name = "Company" };
 
-            Owners = owners
-                .Where(o => o.Type == TypeOwner.Individual)
-                .Select(indO => new SelectListItem
-                {
-                    Value = indO.Id.ToString(),
-                    Text = indO.Name,
-                    Group = Individual
-                }).Union(owners
-                .Where(o => o.Type == TypeOwner.Company)
-                .Select(comO => new SelectListItem
-                {
-                    Value = comO.Id.ToString(),
-                    Text = comO.Name,
-                    Group = Company
-                })).ToList();
+        //    Owners = owners
+        //        .Where(o => o.Type == TypeOwner.Individual)
+        //        .Select(indO => new SelectListItem
+        //        {
+        //            Value = indO.Id.ToString(),
+        //            Text = indO.Name,
+        //            Group = Individual
+        //        }).Union(owners
+        //        .Where(o => o.Type == TypeOwner.Company)
+        //        .Select(comO => new SelectListItem
+        //        {
+        //            Value = comO.Id.ToString(),
+        //            Text = comO.Name,
+        //            Group = Company
+        //        })).ToList();
 
-            List<Animal> animals = new List<Animal>();
+        //    List<Animal> animals = new List<Animal>();
 
-            foreach (var owner in owners.ToList())
-            {
-                animals.AddRange(owner.Animals);
-            }
+        //    foreach (var owner in owners.ToList())
+        //    {
+        //        animals.AddRange(owner.Animals);
+        //    }
 
-            //animals.AddRange(owners.ToList().ForEach(o => o.Animals.Select(a => a).ToList()));
+        //    //animals.AddRange(owners.ToList().ForEach(o => o.Animals.Select(a => a).ToList()));
 
-            Animals = animals.Select(a => new SelectListItem
-            {
-                Value = a.GUID.ToString(),
-                Text = $"{a.ChipNumber} - { a.Age }" 
-            }).ToList();
-        }
+        //    Animals = animals.Select(a => new SelectListItem
+        //    {
+        //        Value = a.GUID.ToString(),
+        //        Text = $"{a.ChipNumber} - { a.Age }" 
+        //    }).ToList();
+        //}
 
-        public WorkOwnerViewModel(IEnumerable<Animal> animals)
-        {
-            var Individual = new SelectListGroup { Name = "Individual" };
-            var Company = new SelectListGroup { Name = "Company" };
+        //public WorkOwnerViewModel(IEnumerable<Animal> animals)
+        //{
+        //    var Individual = new SelectListGroup { Name = "Individual" };
+        //    var Company = new SelectListGroup { Name = "Company" };
 
-            Animals = animals
-                .Where(a => a.Owner.Type == TypeOwner.Individual)
-                .Select(aIn => new SelectListItem {
-                    Value = aIn.GUID.ToString(),
-                    Text = $"{aIn.Owner.Name} - {aIn.ChipNumber} - { aIn.Age }",
-                    Group = Individual
-                })
-                .Union(animals
-                .Where(a => a.Owner.Type == TypeOwner.Company)
-                .Select(aCom => new SelectListItem
-                {
-                    Value = aCom.GUID.ToString(),
-                    Text = $"{aCom.Owner.Name} - {aCom.ChipNumber} - { aCom.Age }",
-                    Group = Company
-                })).ToList();
-        }
+        //    Animals = animals
+        //        .Where(a => a.Owner.Type == TypeOwner.Individual)
+        //        .Select(aIn => new SelectListItem {
+        //            Value = aIn.GUID.ToString(),
+        //            Text = $"{aIn.Owner.Name} - {aIn.ChipNumber} - { aIn.Age }",
+        //            Group = Individual
+        //        })
+        //        .Union(animals
+        //        .Where(a => a.Owner.Type == TypeOwner.Company)
+        //        .Select(aCom => new SelectListItem
+        //        {
+        //            Value = aCom.GUID.ToString(),
+        //            Text = $"{aCom.Owner.Name} - {aCom.ChipNumber} - { aCom.Age }",
+        //            Group = Company
+        //        })).ToList();
+        //}
 
 
 
