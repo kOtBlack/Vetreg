@@ -152,7 +152,8 @@ namespace Vetreg.Controllers {
                         IsChected = false
                     }).ToList().OrderBy(a => a.OwnerName));
 
-                var t = workOwner.Animals;
+
+                //workOwner.AnimalsTemp = workOwner.Animals;
                 //workOwner.AnimalsList = checkAnimals.Where(checkAnimal => checkAnimal.IsChected == true);
             }
             
@@ -193,6 +194,7 @@ namespace Vetreg.Controllers {
             {
                 work.GUID = Guid.NewGuid();
 
+                work.WorksWithAnimal = new List<WorkWithAnimal>();
                 foreach (var animal in work.Animals)
                 {
                     if (animal.IsChected)

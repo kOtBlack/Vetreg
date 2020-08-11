@@ -29,7 +29,7 @@ namespace Vetreg.Models {
         //public IEnumerable<string> AnimalsId { get; set; } = new List<string>();
 
         [NotMapped]
-        public List<CheckAnimal> Animals { get; set; } = new List<CheckAnimal>();
+        public IEnumerable<CheckAnimal> Animals { get; set; } = new List<CheckAnimal>();
 
         public ICollection<WorkWithAnimal> WorksWithAnimal { get; set; } //= new List<WorkWithAnimal>();
 

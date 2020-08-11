@@ -30,8 +30,6 @@ namespace Vetreg.ViewModels
         public int CauseId { get; set; }
         public int DiseaseId { get; set; }
 
-
-
         public WorkOwnerViewModel() { }
 
         //public WorkOwnerViewModel(IEnumerable<Owner> owners)
