@@ -17,17 +17,21 @@ namespace Vetreg.Models {
         public Cause Cause { get; set; }
         public int DiseaseId { get; set; }
         public Disease Disease { get; set; }
-        public int OwnerId { get; set; }
-        public ICollection<Owner> Owners { get; set; } = new List<Owner>();
-        public ICollection<Animal> Animals { get; set; } = new List<Animal>();
+        //public int OwnerId { get; set; }
+        //public ICollection<Owner> Owners { get; set; } = new List<Owner>();
+        //public ICollection<Animal> Animals { get; set; } = new List<Animal>();
 
 
+
+        //[NotMapped]
+        //public IEnumerable<string> OwnersId { get; set; } = new List<string>();
+        //[NotMapped]
+        //public IEnumerable<string> AnimalsId { get; set; } = new List<string>();
 
         [NotMapped]
-        public IEnumerable<string> OwnersId { get; set; } = new List<string>();
-        [NotMapped]
-        public IEnumerable<string> AnimalsId { get; set; } = new List<string>();
-        public ICollection<WorkWithAnimal> WorksWithAnimal { get; set; } = new List<WorkWithAnimal>();
+        public IEnumerable<CheckAnimal> Animals { get; set; } = new List<CheckAnimal>();
+
+        public ICollection<WorkWithAnimal> WorksWithAnimal { get; set; } //= new List<WorkWithAnimal>();
 
     }
 }
