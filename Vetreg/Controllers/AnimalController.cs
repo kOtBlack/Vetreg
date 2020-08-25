@@ -77,6 +77,7 @@ namespace Vetreg.Controllers
             }
 
             var animal = await _context.Animals
+                .Include(wa => wa.WorksWithAnimal)
                 .FirstOrDefaultAsync(a => a.GUID == id);
             if (animal == null)
             {
@@ -89,7 +90,7 @@ namespace Vetreg.Controllers
             animal.Suit = _context.Suits.FirstOrDefault(a => a.Id == animal.SuitId);
             animal.Owner = _context.Owners.FirstOrDefault(a => a.Id == animal.OwnerId);
             animal.Tags = _context.Tags.Where(a => a.AnimalId == animal.GUID).ToList();
-
+            animal.WorksWithAnimal.ForEach(work => work.Work = _context.Works.FirstOrDefault(w => w.GUID == work.WorkId));
             return View(animal);
         }
 

@@ -17,6 +17,12 @@
             @Html.DisplayFor(model => model.AddDate)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OwnerId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Owner.Name)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.RegionId)
         </dt>
         <dd class="col-sm-10">
@@ -59,18 +65,10 @@
             @Html.DisplayFor(model => model.ChipNumber)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Birthday)
+            @Html.DisplayNameFor(model => model.Age)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Age);
-            @*@{*@
-            @*@Html.DisplayFor(model => model.Birthday);*@
-
-            @*DateTime age = DateTime.MinValue + (TimeSpan)(DateTime.Now - Model.Birthday);
-        @: Age: @(age.Year - 1)
-        @: y @(age.Month - 1)
-        @: m.*@
-            @*}*@
+            @Html.DisplayFor(model => model.Age)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Gender)
@@ -101,7 +99,31 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.GUID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<div class="form-group">
+    <div class="table">
+        <table>
+            <tr>
+                @{
+                    @Html.DisplayNameFor(model => model.WorksWithAnimal)
+                    if (Model.WorksWithAnimal.Count > 0) {
+                        int cnt = 0;
+                        foreach (var work in Model.WorksWithAnimal) {
+                            if (cnt++ % 3 == 0) {
+                            @:</tr><tr>
+                        }
+                        @:<td>
+                            <a asp-controller="Work" asp-action="Details" asp-route-id="@work.WorkId">Disease: @work.Work.Disease </a>
+                            @:  -
+                            @: Date: @string.Format("{0:dd-MM-yyyy}", work.Work.Date)
+                            @:  | </td>
+                        }
+                    @:</tr>
+                   }
+                }
+            </table>
+        </div>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.GUID">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>

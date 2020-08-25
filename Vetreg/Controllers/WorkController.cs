@@ -57,21 +57,23 @@ namespace Vetreg.Controllers {
             }
 
             var work = await _context.Works
-                .Include(w => w.WorksWithAnimal)
+
                 //.Include(w => w.Owners)
                 .Include(w => w.Cause)
                 .Include(w => w.Disease)
                 //.Include(w => w.City)
                 //.Include(w => w.Owner)
                 //.Include(w => w.Region)
+                .Include(w => w.WorksWithAnimal)
+                //.Include(a => a.Animals)
                 .FirstOrDefaultAsync(m => m.GUID == id);
             if (work == null)
             {
                 return NotFound();
             }
 
-            //work.Animals.Add = _context.Animals.ToList().ForEach(work.AnimalsId.Where(w => w. == ));
-
+            work.WorksWithAnimal.ForEach(animal => 
+                animal.Animal = _context.Animals.FirstOrDefault(a => a.GUID == animal.AnimalId));
             return View(work);
         }
 
@@ -194,7 +196,7 @@ namespace Vetreg.Controllers {
             {
                 work.GUID = Guid.NewGuid();
 
-                work.WorksWithAnimal = new List<WorkWithAnimal>();
+                //work.WorksWithAnimal = new List<WorkWithAnimal>();
                 foreach (var animal in work.Animals)
                 {
                     if (animal.IsChected)

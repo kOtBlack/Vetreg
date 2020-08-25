@@ -22,6 +22,9 @@ namespace Vetreg.Data {
         public DbSet<Vetreg.Models.Cause> Causes { get; set; }
         public DbSet<Vetreg.Models.Disease> Diseases { get; set; }
         public DbSet<Vetreg.Models.Work> Works { get; set; }
+        public DbSet<Vetreg.Models.WorkWithAnimal> WorkWithAnimal { get; set; }
+
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -35,7 +38,7 @@ namespace Vetreg.Data {
             modelBuilder.Entity<WorkWithAnimal>()
                 .HasKey(t => new { t.AnimalId, t.WorkId });
 
-            //modelBuilder.Entity<WorkWithAnimal>().ToTable("WorksWithAnimals");
+            modelBuilder.Entity<WorkWithAnimal>().ToTable("WorkWithAnimal");
 
             //modelBuilder.Entity<WorkWithAnimal>()
             //    .HasOne(sc => sc.Animal)

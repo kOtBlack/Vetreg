@@ -47,6 +47,8 @@
     <Compile Remove="Migrations\20200804012714_AddDisease.Designer.cs" />
     <Compile Remove="Migrations\20200804013335_AddDisease.cs" />
     <Compile Remove="Migrations\20200804013335_AddDisease.Designer.cs" />
+    <Compile Remove="Migrations\20200823060929_RenameTable.cs" />
+    <Compile Remove="Migrations\20200823060929_RenameTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

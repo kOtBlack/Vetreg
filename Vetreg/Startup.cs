@@ -60,7 +60,7 @@ namespace Vetreg {
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Owner}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

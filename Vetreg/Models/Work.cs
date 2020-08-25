@@ -12,9 +12,12 @@ namespace Vetreg.Models {
         
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Дата работ")]
         public DateTime Date { get; set; }
+        [Display(Name = "Мероприятие")]
         public int CauseId { get; set; }
         public Cause Cause { get; set; }
+        [Display(Name = "Заболевание")]
         public int DiseaseId { get; set; }
         public Disease Disease { get; set; }
         //public int OwnerId { get; set; }
@@ -30,8 +33,8 @@ namespace Vetreg.Models {
 
         [NotMapped]
         public IEnumerable<CheckAnimal> Animals { get; set; } = new List<CheckAnimal>();
-
-        public ICollection<WorkWithAnimal> WorksWithAnimal { get; set; } //= new List<WorkWithAnimal>();
+        [Display(Name = "Пологовье")]
+        public List<WorkWithAnimal> WorksWithAnimal { get; set; } = new List<WorkWithAnimal>();
 
     }
 }

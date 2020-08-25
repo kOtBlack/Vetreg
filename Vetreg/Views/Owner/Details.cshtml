@@ -6,74 +6,72 @@
 
 <h1>Details</h1>
 
-<div>
-    <h4>Owner</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FIO)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FIO)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Region)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Region.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.City.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-    </dl>
-</div>
-<div class="form-group">
-    <div class="table">
-        <table>
-            <tr>
-                @{ int cnt = 0;
-
-                    foreach (var animal in Model.Animals)
-                    {
-                        if (cnt++ % 3 == 0)
-                        {
-                        @:</tr><tr>
-                        }
-                        @:<td>
-                            @: id: @animal.ChipNumber
-                            @:  -
-                            @: age: @String.Format("{0:f}", (float)((DateTime.Now - @animal.Birthday).TotalDays / 365.242199))
-                        @:  | </td>
-                        }
-                    @:</tr>
-                }
+    <div>
+        <h4>Owner</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FIO)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FIO)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Phone)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Phone)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Type)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Type)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Region)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Region.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.City)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.City.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+        </dl>
+    </div>
+    <div class="form-group">
+        <div class="table">
+            <table>
+                <tr>
+                    @{ int cnt = 0;
+                        @Html.DisplayNameFor(model => model.Animals)
+                        foreach (var animal in Model.Animals) {
+                            if (cnt++ % 3 == 0) {
+                            @:</tr><tr>
+                            }
+                            @:<td>
+                                <a asp-controller="Animal" asp-action="Details" asp-route-id="@animal.GUID">Id: @animal.ChipNumber </a>
+                                @:  -
+                                @: age: @animal.Age
+                            @:  | </td>
+                            }
+                        @:</tr>
+                    }
 
             </table>
         </div>
